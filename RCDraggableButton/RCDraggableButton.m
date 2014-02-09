@@ -25,11 +25,23 @@
 //
 
 #import "RCDraggableButton.h"
-#define ANIMATEDURATION 0.2f
+#define RCWAITINGKEYWINDOWAVAILABLE 0.1f
+#define RCAUTODOCKINGANIMATEDURATION 0.2f
+#define RCDOUBLETAPSTIMEINTERVAL 0.36f
 
 @implementation RCDraggableButton
 @synthesize draggable = _draggable;
 @synthesize autoDocking = _autoDocking;
+
+@synthesize longPressBlock = _longPressBlock;
+@synthesize tapBlock = _tapBlock;
+@synthesize doubleTapBlock = _doubleTapBlock;
+
+@synthesize draggingBlock = _draggingBlock;
+@synthesize dragDoneBlock = _dragDoneBlock;
+
+@synthesize autoDockingBlock = _autoDockingBlock;
+@synthesize autoDockingDoneBlock = _autoDockingDoneBlock;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -50,7 +62,7 @@
 - (id)initInKeyWindowWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:0.1];
+        [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:RCWAITINGKEYWINDOWAVAILABLE];
         [self defaultSetting];
     }
     return self;
@@ -73,31 +85,67 @@
     
     _draggable = YES;
     _autoDocking = YES;
+    _singleTapBeenCanceled = NO;
+    
+    _longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] init];
+    [_longPressGestureRecognizer addTarget:self action:@selector(gestureRecognizerHandle:)];
+    [_longPressGestureRecognizer setAllowableMovement:0];
+    [self addGestureRecognizer:_longPressGestureRecognizer];
 }
 
 - (void)addButtonToKeyWindow {
     [[UIApplication sharedApplication].keyWindow addSubview:self];
 }
 
-- (void)touchedBlock:(void (^)(RCDraggableButton *))block {
-    self.touchedBlock = block;
+#pragma mark - Ges
+- (void)gestureRecognizerHandle:(UILongPressGestureRecognizer *)gestureRecognizer {
+    switch ([gestureRecognizer state]) {
+        case UIGestureRecognizerStateBegan: {
+            if (_longPressBlock) {
+                _longPressBlock(self);
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+
+}
+
+#pragma mark - Blocks
+#pragma mark Touch Blocks
+- (void)setTapBlock:(void (^)(RCDraggableButton *))tapBlock {
+    _tapBlock = tapBlock;
     
-    if (self.touchedBlock) {
+    if (_tapBlock) {
         [self addTarget:self action:@selector(buttonTouched) forControlEvents:UIControlEventTouchUpInside];
     }
 }
 
-#pragma mark - touch
+#pragma mark - Touch
 - (void)buttonTouched {
-    if (self.touchedBlock && !_isDragging) {
-        self.touchedBlock(self);
+    [self performSelector:@selector(executeButtonTouchedBlock) withObject:nil afterDelay:(_doubleTapBlock ? RCDOUBLETAPSTIMEINTERVAL : 0)];
+}
+
+- (void)executeButtonTouchedBlock {
+    if (!_singleTapBeenCanceled && _tapBlock && !_isDragging) {
+        _tapBlock(self);
     }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     _isDragging = NO;
     [super touchesBegan:touches withEvent:event];
-    
+    UITouch *touch = [touches anyObject];
+    if (touch.tapCount == 2) {
+        if (_doubleTapBlock) {
+            _singleTapBeenCanceled = YES;
+            _doubleTapBlock(self);
+        }
+    } else {
+        _singleTapBeenCanceled = NO;
+    }
     _beginLocation = [[touches anyObject] locationInView:self];
 }
 
@@ -131,25 +179,48 @@
         }else if (self.center.y <= topLimitY){
             self.center = CGPointMake(self.center.x, topLimitY);
         }
+        
+        if (_draggingBlock) {
+            _draggingBlock(self);
+        }
     }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesEnded: touches withEvent: event];
-
-    if (_autoDocking) {
+    
+    if (_isDragging && _dragDoneBlock) {
+        _dragDoneBlock(self);
+        _singleTapBeenCanceled = YES;
+    }
+    
+    if (_isDragging && _autoDocking) {
         CGRect superviewFrame = self.superview.frame;
         CGRect frame = self.frame;
         CGFloat middleX = superviewFrame.size.width / 2;
 
         if (self.center.x >= middleX) {
-            [UIView animateWithDuration:ANIMATEDURATION animations:^{
+            [UIView animateWithDuration:RCAUTODOCKINGANIMATEDURATION animations:^{
                 self.center = CGPointMake(superviewFrame.size.width - frame.size.width / 2, self.center.y);
+                if (_autoDockingBlock) {
+                    _autoDockingBlock(self);
+                }
+            } completion:^(BOOL finished) {
+                if (_autoDockingDoneBlock) {
+                    _autoDockingDoneBlock(self);
+                }
             }];
         } else {
-            [UIView animateWithDuration:ANIMATEDURATION animations:^{
+            [UIView animateWithDuration:RCAUTODOCKINGANIMATEDURATION animations:^{
                 self.center = CGPointMake(frame.size.width / 2, self.center.y);
+                if (_autoDockingBlock) {
+                    _autoDockingBlock(self);
+                }
+            } completion:^(BOOL finished) {
+                if (_autoDockingDoneBlock) {
+                    _autoDockingDoneBlock(self);
+                }
             }];
         }
     }

@@ -29,16 +29,25 @@
 
 @interface RCDraggableButton : UIButton {
     BOOL _isDragging;
+    BOOL _singleTapBeenCanceled;
     CGPoint _beginLocation;
+    UILongPressGestureRecognizer *_longPressGestureRecognizer;
 }
 @property (nonatomic) BOOL draggable;
 @property (nonatomic) BOOL autoDocking;
-@property (nonatomic, copy) void(^touchedBlock)(RCDraggableButton *button);
+
+@property (nonatomic, copy) void(^longPressBlock)(RCDraggableButton *button);
+@property (nonatomic, copy) void(^tapBlock)(RCDraggableButton *button);
+@property (nonatomic, copy) void(^doubleTapBlock)(RCDraggableButton *button);
+
+@property (nonatomic, copy) void(^draggingBlock)(RCDraggableButton *button);
+@property (nonatomic, copy) void(^dragDoneBlock)(RCDraggableButton *button);
+
+@property (nonatomic, copy) void(^autoDockingBlock)(RCDraggableButton *button);
+@property (nonatomic, copy) void(^autoDockingDoneBlock)(RCDraggableButton *button);
 
 - (id)initInKeyWindowWithFrame:(CGRect)frame;
 - (id)initInView:(id)view WithFrame:(CGRect)frame;
-
-- (void)touchedBlock:(void (^)(RCDraggableButton *button))block;
 
 - (BOOL)isDragging;
 @end
