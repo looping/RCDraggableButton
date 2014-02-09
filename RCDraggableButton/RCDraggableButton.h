@@ -25,6 +25,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#define RCDBVERSION @"0.1"
 
 @interface RCDraggableButton : UIButton {
     BOOL _isDragging;
@@ -33,6 +34,9 @@
 @property (nonatomic) BOOL draggable;
 @property (nonatomic) BOOL autoDocking;
 @property (nonatomic, copy) void(^touchedBlock)(RCDraggableButton *button);
+
+- (id)initInKeyWindowWithFrame:(CGRect)frame;
+- (id)initInView:(id)view WithFrame:(CGRect)frame;
 
 - (void)touchedBlock:(void (^)(RCDraggableButton *button))block;
 

@@ -10,6 +10,5 @@
 #import "RCDraggableButton.h"
 
 @interface RCViewController : UIViewController
-@property (strong, nonatomic) RCDraggableButton *avatar;
 
 @end

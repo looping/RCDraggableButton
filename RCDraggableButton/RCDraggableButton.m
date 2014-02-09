@@ -31,11 +31,35 @@
 @synthesize draggable = _draggable;
 @synthesize autoDocking = _autoDocking;
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self defaultSetting];
+    }
+    return self;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self defaultSetting];
+    }
+    return self;
+}
+
+- (id)initInKeyWindowWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:0.1];
+        [self defaultSetting];
+    }
+    return self;
+}
+
+- (id)initInView:(id)view WithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [view addSubview:self];
         [self defaultSetting];
     }
     return self;
@@ -52,12 +76,15 @@
 }
 
 - (void)addButtonToKeyWindow {
-    [self addTarget:self action:@selector(buttonTouched) forControlEvents:UIControlEventTouchUpInside];
     [[UIApplication sharedApplication].keyWindow addSubview:self];
 }
 
 - (void)touchedBlock:(void (^)(RCDraggableButton *))block {
     self.touchedBlock = block;
+    
+    if (self.touchedBlock) {
+        [self addTarget:self action:@selector(buttonTouched) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 #pragma mark - touch
@@ -88,21 +115,21 @@
         
         CGRect superviewFrame = self.superview.frame;
         CGRect frame = self.frame;
-        CGFloat middleX = frame.size.width / 2;
-        CGFloat limitX = superviewFrame.size.width - middleX;
-        CGFloat middleY = frame.size.height / 2;
-        CGFloat limitY = superviewFrame.size.height - middleY;
+        CGFloat leftLimitX = frame.size.width / 2;
+        CGFloat rightLimitX = superviewFrame.size.width - leftLimitX;
+        CGFloat topLimitY = frame.size.height / 2;
+        CGFloat bottomLimitY = superviewFrame.size.height - topLimitY;
         
-        if (self.center.x > limitX) {
-            self.center = CGPointMake(limitX, self.center.y + offsetY);
-        }else if (self.center.x < middleX) {
-            self.center = CGPointMake(middleX, self.center.y + offsetY);
+        if (self.center.x > rightLimitX) {
+            self.center = CGPointMake(rightLimitX, self.center.y);
+        }else if (self.center.x <= leftLimitX) {
+            self.center = CGPointMake(leftLimitX, self.center.y);
         }
         
-        if (self.center.y > limitY) {
-            self.center = CGPointMake(self.center.x, limitY);
-        }else if (self.center.y <= middleY){
-            self.center = CGPointMake(self.center.x, middleY);
+        if (self.center.y > bottomLimitY) {
+            self.center = CGPointMake(self.center.x, bottomLimitY);
+        }else if (self.center.y <= topLimitY){
+            self.center = CGPointMake(self.center.x, topLimitY);
         }
     }
 }
@@ -112,13 +139,17 @@
     [super touchesEnded: touches withEvent: event];
 
     if (_autoDocking) {
-        if (self.center.x >= self.superview.frame.size.width/2) {
+        CGRect superviewFrame = self.superview.frame;
+        CGRect frame = self.frame;
+        CGFloat middleX = superviewFrame.size.width / 2;
+
+        if (self.center.x >= middleX) {
             [UIView animateWithDuration:ANIMATEDURATION animations:^{
-                self.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - self.frame.size.width, self.center.y - self.frame.size.width / 2, self.frame.size.width, self.frame.size.width);
+                self.center = CGPointMake(superviewFrame.size.width - frame.size.width / 2, self.center.y);
             }];
         } else {
             [UIView animateWithDuration:ANIMATEDURATION animations:^{
-                self.frame = CGRectMake(0.0f, self.center.y - self.frame.size.width / 2, self.frame.size.width, self.frame.size.width);
+                self.center = CGPointMake(frame.size.width / 2, self.center.y);
             }];
         }
     }
