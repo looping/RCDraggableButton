@@ -1,3 +1,3 @@
 language: objective-c
-xcode_project: RCDraggableButtonExample.xcodeproj
+xcode_project: ./Examples/RCDraggableButtonExample/RCDraggableButtonExample.xcodeproj
 xcode_scheme: RCDraggableButtonExample
