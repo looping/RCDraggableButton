@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "RCDraggableButton.h"
 
 @interface RCDraggableButtonExampleTests : XCTestCase
 
@@ -14,21 +15,46 @@
 
 @implementation RCDraggableButtonExampleTests
 
-- (void)setUp
-{
+- (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
-- (void)tearDown
-{
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+- (void)tearDown {
     [super tearDown];
 }
 
-- (void)testExample
-{
-
+- (void)testVersion {
+    XCTAssertEqualObjects(RC_DB_VERSION, [RCDraggableButton version]);
 }
 
+- (void)testInitInKeyWindow {
+    RCDraggableButton *draggableButton = [[RCDraggableButton alloc] initInKeyWindowWithFrame:CGRectMake(120, 120, 60, 60)];
+    
+    XCTAssertEqualObjects([UIButton class], [draggableButton superclass]);
+    XCTAssertEqualObjects(NULL, [draggableButton superview]);
+}
+
+- (void)testInitInView {
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 300, 300)];
+    [customView setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
+    
+    RCDraggableButton *draggableButton = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 120, 60, 60)];
+    
+    XCTAssertEqualObjects([UIButton class], [draggableButton superclass]);
+    XCTAssertEqualObjects(customView, [draggableButton superview]);
+}
+
+- (void)testRemoveFromView {
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 300, 300)];
+    [customView setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
+    
+    RCDraggableButton *draggableButton = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 120, 60, 60)];
+    
+    XCTAssertEqualObjects([UIButton class], [draggableButton superclass]);
+    XCTAssertEqualObjects(customView, [draggableButton superview]);
+
+    [RCDraggableButton removeAllFromView:customView];
+    
+    XCTAssertEqualObjects(NULL, [draggableButton superview]);
+}
 @end
