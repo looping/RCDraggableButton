@@ -78,7 +78,7 @@
 }
 
 - (void)defaultSetting {
-    [self.layer setCornerRadius:self.frame.size.width / 2];
+    [self.layer setCornerRadius:self.frame.size.height / 2];
     [self.layer setBorderColor:[UIColor lightGrayColor].CGColor];
     [self.layer setBorderWidth:0.5];
     [self.layer setMasksToBounds:YES];
@@ -243,4 +243,20 @@
     return RC_DB_VERSION;
 }
 
+#pragma mark - remove
++ (void)removeAllFromKeyWindow {
+    for (id view in [[UIApplication sharedApplication].keyWindow subviews]) {
+        if ([view isKindOfClass:[RCDraggableButton class]]) {
+            [view removeFromSuperview];
+        }
+    }
+}
+
++ (void)removeAllFromView:(id)superView {
+    for (id view in [superView subviews]) {
+        if ([view isKindOfClass:[RCDraggableButton class]]) {
+            [view removeFromSuperview];
+        }
+    }
+}
 @end

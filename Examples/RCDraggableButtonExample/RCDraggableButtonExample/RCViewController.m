@@ -21,6 +21,8 @@
     [self loadAvatarInKeyWindow];
     
     [self loadAvatarInCustomView];
+    
+    [self addControlButton];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,11 +79,16 @@
 }
 
 - (void)loadAvatarInCustomView {
-    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 300, 300)];
-    [customView setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
-    [self.view addSubview:customView];
-    
-    RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 120, 60, 60)];
+    UIView *customView = nil;
+    if ([self.view viewWithTag:89]) {
+        customView = [self.view viewWithTag:89];
+    } else {
+        customView = [[UIView alloc] initWithFrame:CGRectMake(10, 64, 300, 200)];
+        [customView setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
+        [customView setTag:89];
+        [self.view addSubview:customView];
+    }
+    RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 60, 60, 60)];
     [avatar setBackgroundImage:[UIImage imageNamed:@"avatar"] forState:UIControlStateNormal];
     [avatar setAutoDocking:NO];
     
@@ -120,6 +127,44 @@
         //More todo here.
         
     };
+}
+
+- (void)addControlButton {
+    RCDraggableButton *removeAllFromKeyWindow = [[RCDraggableButton alloc] initInView:self.view WithFrame:CGRectMake(10, 280, 300, 44)];
+    [removeAllFromKeyWindow addTarget:self action:@selector(removeAllFromKeyWindow) forControlEvents:UIControlEventTouchUpInside];
+    [removeAllFromKeyWindow setTitle:@"Remove All From KeyWindow" forState:UIControlStateNormal];
+    [removeAllFromKeyWindow setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [removeAllFromKeyWindow setDraggable:NO];
+    [self.view addSubview:removeAllFromKeyWindow];
+    
+    RCDraggableButton *addOneToKeyWindow = [[RCDraggableButton alloc] initInView:self.view WithFrame:CGRectMake(10, 330, 300, 44)];
+    [addOneToKeyWindow addTarget:self action:@selector(loadAvatarInKeyWindow) forControlEvents:UIControlEventTouchUpInside];
+    [addOneToKeyWindow setTitle:@"Add One To KeyWindow" forState:UIControlStateNormal];
+    [addOneToKeyWindow setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [addOneToKeyWindow setDraggable:NO];
+    [self.view addSubview:addOneToKeyWindow];
+    
+    RCDraggableButton *removeAllFromView = [[RCDraggableButton alloc] initInView:self.view WithFrame:CGRectMake(10, 380, 300, 44)];
+    [removeAllFromView addTarget:self action:@selector(removeAllFromView) forControlEvents:UIControlEventTouchUpInside];
+    [removeAllFromView setTitle:@"Remove All From View" forState:UIControlStateNormal];
+    [removeAllFromView setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [removeAllFromView setDraggable:NO];
+    [self.view addSubview:removeAllFromView];
+    
+    RCDraggableButton *addOneToView = [[RCDraggableButton alloc] initInView:self.view WithFrame:CGRectMake(10, 430, 300, 44)];
+    [addOneToView addTarget:self action:@selector(loadAvatarInCustomView) forControlEvents:UIControlEventTouchUpInside];
+    [addOneToView setTitle:@"Add One To View" forState:UIControlStateNormal];
+    [addOneToView setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [addOneToView setDraggable:NO];
+    [self.view addSubview:addOneToView];
+}
+
+- (void)removeAllFromKeyWindow {
+    [RCDraggableButton removeAllFromKeyWindow];
+}
+
+- (void)removeAllFromView {
+    [RCDraggableButton removeAllFromView:[self.view viewWithTag:89]];
 }
 
 @end
