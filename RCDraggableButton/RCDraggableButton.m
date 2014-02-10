@@ -25,9 +25,9 @@
 //
 
 #import "RCDraggableButton.h"
-#define RCWAITINGKEYWINDOWAVAILABLE 0.1f
-#define RCAUTODOCKINGANIMATEDURATION 0.2f
-#define RCDOUBLETAPSTIMEINTERVAL 0.36f
+#define RC_WAITING_KEYWINDOW_AVAILABLE 0.f
+#define RC_AUTODOCKING_ANIMATE_DURATION 0.2f
+#define RC_DOUBLE_TAP_TIME_INTERVAL 0.36f
 
 @implementation RCDraggableButton
 @synthesize draggable = _draggable;
@@ -62,7 +62,7 @@
 - (id)initInKeyWindowWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:RCWAITINGKEYWINDOWAVAILABLE];
+        [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:RC_WAITING_KEYWINDOW_AVAILABLE];
         [self defaultSetting];
     }
     return self;
@@ -125,7 +125,7 @@
 
 #pragma mark - Touch
 - (void)buttonTouched {
-    [self performSelector:@selector(executeButtonTouchedBlock) withObject:nil afterDelay:(_doubleTapBlock ? RCDOUBLETAPSTIMEINTERVAL : 0)];
+    [self performSelector:@selector(executeButtonTouchedBlock) withObject:nil afterDelay:(_doubleTapBlock ? RC_DOUBLE_TAP_TIME_INTERVAL : 0)];
 }
 
 - (void)executeButtonTouchedBlock {
@@ -201,7 +201,7 @@
         CGFloat middleX = superviewFrame.size.width / 2;
 
         if (self.center.x >= middleX) {
-            [UIView animateWithDuration:RCAUTODOCKINGANIMATEDURATION animations:^{
+            [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
                 self.center = CGPointMake(superviewFrame.size.width - frame.size.width / 2, self.center.y);
                 if (_autoDockingBlock) {
                     _autoDockingBlock(self);
@@ -212,7 +212,7 @@
                 }
             }];
         } else {
-            [UIView animateWithDuration:RCAUTODOCKINGANIMATEDURATION animations:^{
+            [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
                 self.center = CGPointMake(frame.size.width / 2, self.center.y);
                 if (_autoDockingBlock) {
                     _autoDockingBlock(self);
@@ -237,4 +237,10 @@
 - (BOOL)isDragging {
     return _isDragging;
 }
+
+#pragma mark - version
++ (NSString *)version {
+    return RC_DB_VERSION;
+}
+
 @end

@@ -25,7 +25,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#define RCDBVERSION @"0.1"
+#define RC_DB_VERSION @"0.1"
 
 @interface RCDraggableButton : UIButton {
     BOOL _isDragging;
@@ -50,4 +50,6 @@
 - (id)initInView:(id)view WithFrame:(CGRect)frame;
 
 - (BOOL)isDragging;
+
++ (NSString *)version;
 @end
