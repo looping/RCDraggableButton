@@ -54,6 +54,11 @@
 + (NSString *)version;
 
 + (void)removeAllFromKeyWindow;
++ (void)removeFromKeyWindowWithTag:(NSInteger)tag;
++ (void)removeFromKeyWindowWithTags:(NSArray *)tags;
+
 + (void)removeAllFromView:(id)superView;
++ (void)removeFromView:(id)superView withTag:(NSInteger)tag;
++ (void)removeFromView:(id)superView withTags:(NSArray *)tags;
 
 @end

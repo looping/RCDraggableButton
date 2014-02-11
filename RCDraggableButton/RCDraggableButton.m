@@ -232,6 +232,7 @@
 }
 
 #pragma mark - remove
+#pragma mark removeFromKeyWindow
 + (void)removeAllFromKeyWindow {
     for (id view in [[UIApplication sharedApplication].keyWindow subviews]) {
         if ([view isKindOfClass:[RCDraggableButton class]]) {
@@ -240,6 +241,21 @@
     }
 }
 
++ (void)removeFromKeyWindowWithTag:(NSInteger)tag {
+    for (id view in [[UIApplication sharedApplication].keyWindow subviews]) {
+        if ([view isKindOfClass:[RCDraggableButton class]] && ((RCDraggableButton *)view).tag == tag) {
+            [view removeFromSuperview];
+        }
+    }
+}
+
++ (void)removeFromKeyWindowWithTags:(NSArray *)tags {
+    for (NSNumber *tag in tags) {
+        [RCDraggableButton removeFromKeyWindowWithTag:[tag intValue]];
+    }
+}
+
+#pragma mark removeFromView
 + (void)removeAllFromView:(id)superView {
     for (id view in [superView subviews]) {
         if ([view isKindOfClass:[RCDraggableButton class]]) {
@@ -247,4 +263,19 @@
         }
     }
 }
+
++ (void)removeFromView:(id)superView withTag:(NSInteger)tag {
+    for (id view in [superView subviews]) {
+        if ([view isKindOfClass:[RCDraggableButton class]] && ((RCDraggableButton *)view).tag == tag) {
+            [view removeFromSuperview];
+        }
+    }
+}
+
++ (void)removeFromView:(id)superView withTags:(NSArray *)tags {
+    for (NSNumber *tag in tags) {
+        [RCDraggableButton removeFromView:superView withTag:[tag intValue]];
+    }
+}
+
 @end
