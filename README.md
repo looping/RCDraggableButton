@@ -5,7 +5,7 @@
 [![Build Version](https://cocoapod-badges.herokuapp.com/v/RCDraggableButton/badge.png)](https://github.com/RidgeCorn/RCDraggableButton)
 [![Build Status](https://travis-ci.org/RidgeCorn/RCDraggableButton.png?branch=master)](https://travis-ci.org/RidgeCorn/RCDraggableButton)
 
-A draggable button that appears in your subviews.
+A draggable button that appears in your view.
 
 <img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshot.png" alt="RCDraggableButton Screenshot" width="320" height="568" />
 <img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Demo.gif" alt="RCDraggableButton Demo" width="320" height="568" />
@@ -16,15 +16,14 @@ A draggable button that appears in your subviews.
 
 
 ## Requirements
-* Xcode 5 or higher
-* Apple LLVM compiler
+* Xcode 5.0 or higher
 * iOS 5.0 or higher
 * ARC
 
 
 ## Demo
 
-Build and run the `RCDraggableButtonExample` project in Xcode to see `RCDraggableButton` in action.
+Build and run the `RCDraggableButtonExample` project in Xcode5 to see `RCDraggableButton` in action.
 
 
 ## Installation
@@ -33,8 +32,9 @@ Build and run the `RCDraggableButtonExample` project in Xcode to see `RCDraggabl
 
 The recommended approach for installating `RCDraggableButton` is via the [CocoaPods](http://cocoapods.org/) package manager.
 
+In your `Podfile`, add a line shown below:
+
 ``` bash
-platform :ios, '5.0'
 pod 'RCDraggableButton', '~> 0.1'
 ```
 
