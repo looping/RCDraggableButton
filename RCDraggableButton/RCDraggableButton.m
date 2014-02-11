@@ -30,18 +30,6 @@
 #define RC_DOUBLE_TAP_TIME_INTERVAL 0.36f
 
 @implementation RCDraggableButton
-@synthesize draggable = _draggable;
-@synthesize autoDocking = _autoDocking;
-
-@synthesize longPressBlock = _longPressBlock;
-@synthesize tapBlock = _tapBlock;
-@synthesize doubleTapBlock = _doubleTapBlock;
-
-@synthesize draggingBlock = _draggingBlock;
-@synthesize dragDoneBlock = _dragDoneBlock;
-
-@synthesize autoDockingBlock = _autoDockingBlock;
-@synthesize autoDockingDoneBlock = _autoDockingDoneBlock;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
