@@ -25,7 +25,7 @@
 
 #pragma mark common
 - (void)testVersion {
-    XCTAssertEqualObjects(RC_DB_VERSION, [RCDraggableButton version]);
+    XCTAssertEqualObjects(RCDRAGGABLEBUTTON_VERSION, [RCDraggableButton version]);
 }
 
 #pragma mark init

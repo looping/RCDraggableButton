@@ -25,7 +25,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#define RC_DB_VERSION @"0.2"
+#define RCDRAGGABLEBUTTON_VERSION @"0.2.1"
 
 @interface RCDraggableButton : UIButton {
     BOOL _isDragging;
@@ -33,6 +33,7 @@
     CGPoint _beginLocation;
     UILongPressGestureRecognizer *_longPressGestureRecognizer;
 }
+
 @property (nonatomic) BOOL draggable;
 @property (nonatomic) BOOL autoDocking;
 
@@ -53,11 +54,8 @@
 
 + (NSString *)version;
 
-+ (void)removeAllFromKeyWindow;
-+ (void)removeFromKeyWindowWithTag:(NSInteger)tag;
-+ (void)removeFromKeyWindowWithTags:(NSArray *)tags;
-
 + (void)removeAllFromView:(id)superView;
+
 + (void)removeFromView:(id)superView withTag:(NSInteger)tag;
 + (void)removeFromView:(id)superView withTags:(NSArray *)tags;
 

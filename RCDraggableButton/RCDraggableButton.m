@@ -85,7 +85,8 @@
     [[UIApplication sharedApplication].keyWindow addSubview:self];
 }
 
-#pragma mark - Ges
+#pragma mark - Gesture recognizer handle
+
 - (void)gestureRecognizerHandle:(UILongPressGestureRecognizer *)gestureRecognizer {
     switch ([gestureRecognizer state]) {
         case UIGestureRecognizerStateBegan: {
@@ -103,6 +104,7 @@
 
 #pragma mark - Blocks
 #pragma mark Touch Blocks
+
 - (void)setTapBlock:(void (^)(RCDraggableButton *))tapBlock {
     _tapBlock = tapBlock;
     
@@ -112,6 +114,7 @@
 }
 
 #pragma mark - Touch
+
 - (void)buttonTouched {
     [self performSelector:@selector(executeButtonTouchedBlock) withObject:nil afterDelay:(_doubleTapBlock ? RC_DOUBLE_TAP_TIME_INTERVAL : 0)];
 }
@@ -226,46 +229,38 @@
     return _isDragging;
 }
 
-#pragma mark - version
+#pragma mark - Version
+
 + (NSString *)version {
-    return RC_DB_VERSION;
+    return RCDRAGGABLEBUTTON_VERSION;
 }
 
-#pragma mark - remove
-#pragma mark removeFromKeyWindow
-+ (void)removeAllFromKeyWindow {
-    for (id view in [[UIApplication sharedApplication].keyWindow subviews]) {
-        if ([view isKindOfClass:[RCDraggableButton class]]) {
-            [view removeFromSuperview];
-        }
-    }
-}
+#pragma mark - Remove all from view
 
-+ (void)removeFromKeyWindowWithTag:(NSInteger)tag {
-    for (id view in [[UIApplication sharedApplication].keyWindow subviews]) {
-        if ([view isKindOfClass:[RCDraggableButton class]] && ((RCDraggableButton *)view).tag == tag) {
-            [view removeFromSuperview];
-        }
-    }
-}
-
-+ (void)removeFromKeyWindowWithTags:(NSArray *)tags {
-    for (NSNumber *tag in tags) {
-        [RCDraggableButton removeFromKeyWindowWithTag:[tag intValue]];
-    }
-}
-
-#pragma mark removeFromView
 + (void)removeAllFromView:(id)superView {
-    for (id view in [superView subviews]) {
+    NSArray *subviews = [superView subviews];
+    
+    if (! subviews) {
+        subviews = [[UIApplication sharedApplication].keyWindow subviews];
+    }
+    
+    for (id view in subviews) {
         if ([view isKindOfClass:[RCDraggableButton class]]) {
             [view removeFromSuperview];
         }
     }
 }
+
+#pragma mark - Remove from view with tag(s)
 
 + (void)removeFromView:(id)superView withTag:(NSInteger)tag {
-    for (id view in [superView subviews]) {
+    NSArray *subviews = [superView subviews];
+    
+    if (! subviews) {
+        subviews = [[UIApplication sharedApplication].keyWindow subviews];
+    }
+    
+    for (id view in subviews) {
         if ([view isKindOfClass:[RCDraggableButton class]] && ((RCDraggableButton *)view).tag == tag) {
             [view removeFromSuperview];
         }
@@ -278,7 +273,7 @@
     }
 }
 
-#pragma mark - Remove from frame
+#pragma mark - Remove from view in frame
 
 + (void)removeAllFromView:(id)view inFrame:(CGRect)frame {
     NSArray *subviews = [view subviews];

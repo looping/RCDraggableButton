@@ -160,7 +160,7 @@
 }
 
 - (void)removeAllFromKeyWindow {
-    [RCDraggableButton removeAllFromKeyWindow];
+    [RCDraggableButton removeAllFromView:nil];
 }
 
 - (void)removeAllFromView {
