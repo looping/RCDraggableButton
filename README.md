@@ -5,6 +5,7 @@
 [![Build Version](https://cocoapod-badges.herokuapp.com/v/RCDraggableButton/badge.png)](https://github.com/RidgeCorn/RCDraggableButton)
 [![Build Status](https://travis-ci.org/RidgeCorn/RCDraggableButton.png?branch=master)](https://travis-ci.org/RidgeCorn/RCDraggableButton)
 [![RCDraggableButton Chat](https://badges.gitter.im/RidgeCorn/RCDraggableButton.png)](https://gitter.im/RidgeCorn/RCDraggableButton)
+[![Stories in Ready](https://badge.waffle.io/RidgeCorn/RCDraggableButton.png?label=ready)](https://waffle.io/RidgeCorn/RCDraggableButton)
 
 A draggable button that appears in your view.
 
