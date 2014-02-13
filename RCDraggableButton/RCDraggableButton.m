@@ -278,4 +278,34 @@
     }
 }
 
+#pragma mark - Remove from frame
+
++ (void)removeAllFromView:(id)view inFrame:(CGRect)frame {
+    NSArray *subviews = [view subviews];
+    
+    if (! subviews) {
+        subviews = [[UIApplication sharedApplication].keyWindow subviews];
+    }
+    
+    for (id subview in subviews) {
+        if ([subview isKindOfClass:[RCDraggableButton class]]) {
+            CGRect newframe = [(RCDraggableButton *)subview convertRect:frame fromView:view];
+            
+            if (newframe.origin.x <= 0 && newframe.origin.y <= 0 && newframe.size.height >= ((RCDraggableButton *)subview).frame.size.height && newframe.size.width >= ((RCDraggableButton *)subview).frame.size.width) {
+                [subview removeFromSuperview];
+            }
+        }
+    }
+}
+
+- (void)removeFromSuperviewInFrame:(CGRect)frame {
+    if (self.superview) {
+        CGRect newframe = [self convertRect:frame fromView:self.superview];
+        
+        if (newframe.origin.x <= 0 && newframe.origin.y <= 0 && newframe.size.height >= self.frame.size.height && newframe.size.width >= self.frame.size.width) {
+            [self removeFromSuperview];
+        }
+    }
+}
+
 @end

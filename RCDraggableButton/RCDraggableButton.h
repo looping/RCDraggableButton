@@ -61,4 +61,7 @@
 + (void)removeFromView:(id)superView withTag:(NSInteger)tag;
 + (void)removeFromView:(id)superView withTags:(NSArray *)tags;
 
++ (void)removeAllFromView:(id)view inFrame:(CGRect)frame;
+- (void)removeFromSuperviewInFrame:(CGRect)frame;
+
 @end
