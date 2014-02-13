@@ -47,7 +47,6 @@
 @property (nonatomic, copy) void(^autoDockingBlock)(RCDraggableButton *button);
 @property (nonatomic, copy) void(^autoDockingDoneBlock)(RCDraggableButton *button);
 
-- (id)initInKeyWindowWithFrame:(CGRect)frame;
 - (id)initInView:(id)view WithFrame:(CGRect)frame;
 
 - (BOOL)isDragging;

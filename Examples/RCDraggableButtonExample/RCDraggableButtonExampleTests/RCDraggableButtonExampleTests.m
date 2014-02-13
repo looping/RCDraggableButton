@@ -30,7 +30,7 @@
 
 #pragma mark init
 - (void)testInitInKeyWindow {
-    RCDraggableButton *draggableButton = [[RCDraggableButton alloc] initInKeyWindowWithFrame:CGRectMake(120, 120, 60, 60)];
+    RCDraggableButton *draggableButton = [[RCDraggableButton alloc] initInView:nil WithFrame:CGRectMake(120, 120, 60, 60)];
     
     XCTAssertEqualObjects([UIButton class], [draggableButton superclass]);
     XCTAssertEqualObjects(NULL, [draggableButton superview]);

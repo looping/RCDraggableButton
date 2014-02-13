@@ -32,7 +32,7 @@
 }
 
 - (void)loadAvatarInKeyWindow {
-    RCDraggableButton *avatar = [[RCDraggableButton alloc] initInKeyWindowWithFrame:CGRectMake(0, 100, 60, 60)];
+    RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:nil WithFrame:CGRectMake(0, 100, 60, 60)];
     [avatar setBackgroundImage:[UIImage imageNamed:@"avatar"] forState:UIControlStateNormal];
  
     [avatar setLongPressBlock:^(RCDraggableButton *avatar) {

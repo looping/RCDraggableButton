@@ -47,19 +47,14 @@
     return self;
 }
 
-- (id)initInKeyWindowWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:RC_WAITING_KEYWINDOW_AVAILABLE];
-        [self defaultSetting];
-    }
-    return self;
-}
-
 - (id)initInView:(id)view WithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [view addSubview:self];
+        if (view) {
+            [view addSubview:self];
+        } else {
+            [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:RC_WAITING_KEYWINDOW_AVAILABLE];
+        }
         [self defaultSetting];
     }
     return self;
