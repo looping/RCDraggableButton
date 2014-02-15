@@ -268,9 +268,9 @@
     }
 }
 
-#pragma mark - Remove from view in frame
+#pragma mark - Remove from view in rect
 
-+ (void)removeAllFromView:(id)view inFrame:(CGRect)frame {
++ (void)removeAllFromView:(id)view inRect:(CGRect)rect {
     NSArray *subviews = [view subviews];
     
     if (! subviews) {
@@ -279,7 +279,7 @@
     
     for (id subview in subviews) {
         if ([subview isKindOfClass:[RCDraggableButton class]]) {
-            CGRect newframe = [(RCDraggableButton *)subview convertRect:frame fromView:view];
+            CGRect newframe = [(RCDraggableButton *)subview convertRect:rect fromView:view];
             
             if (newframe.origin.x <= 0 && newframe.origin.y <= 0 && newframe.size.height >= ((RCDraggableButton *)subview).frame.size.height && newframe.size.width >= ((RCDraggableButton *)subview).frame.size.width) {
                 [subview removeFromSuperview];
@@ -288,9 +288,9 @@
     }
 }
 
-- (void)removeFromSuperviewInFrame:(CGRect)frame {
+- (void)removeFromSuperviewInRect:(CGRect)rect {
     if (self.superview) {
-        CGRect newframe = [self convertRect:frame fromView:self.superview];
+        CGRect newframe = [self convertRect:rect fromView:self.superview];
         
         if (newframe.origin.x <= 0 && newframe.origin.y <= 0 && newframe.size.height >= self.frame.size.height && newframe.size.width >= self.frame.size.width) {
             [self removeFromSuperview];

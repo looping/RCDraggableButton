@@ -25,7 +25,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#define RCDRAGGABLEBUTTON_VERSION @"0.2.1"
+#define RCDRAGGABLEBUTTON_VERSION @"0.3_dev"
 
 @interface RCDraggableButton : UIButton {
     BOOL _isDragging;
@@ -58,7 +58,7 @@
 + (void)removeFromView:(id)superView withTag:(NSInteger)tag;
 + (void)removeFromView:(id)superView withTags:(NSArray *)tags;
 
-+ (void)removeAllFromView:(id)view inFrame:(CGRect)frame;
-- (void)removeFromSuperviewInFrame:(CGRect)frame;
++ (void)removeAllFromView:(id)view inRect:(CGRect)rect;
+- (void)removeFromSuperviewInRect:(CGRect)rect;
 
 @end
