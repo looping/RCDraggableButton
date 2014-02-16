@@ -117,7 +117,9 @@
     }
     RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 60, 60, 60)];
     [avatar setBackgroundImage:[UIImage imageNamed:@"avatar"] forState:UIControlStateNormal];
-    [avatar setAutoDocking:NO];
+    [avatar setAutoDocking:YES];
+    
+    [avatar setDockPoint:avatar.center];
     
     avatar.longPressBlock = ^(RCDraggableButton *avatar) {
         NSLog(@"\n\tAvatar in customView ===  LongPress!!! ===");

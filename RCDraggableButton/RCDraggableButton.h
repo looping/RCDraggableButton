@@ -37,6 +37,8 @@
 @property (nonatomic) BOOL draggable;
 @property (nonatomic) BOOL autoDocking;
 
+@property (nonatomic) CGPoint dockPoint;
+
 @property (nonatomic, copy) void(^longPressBlock)(RCDraggableButton *button);
 @property (nonatomic, copy) void(^tapBlock)(RCDraggableButton *button);
 @property (nonatomic, copy) void(^doubleTapBlock)(RCDraggableButton *button);

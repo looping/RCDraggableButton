@@ -29,6 +29,8 @@
 #define RC_AUTODOCKING_ANIMATE_DURATION 0.2f
 #define RC_DOUBLE_TAP_TIME_INTERVAL 0.36f
 
+#define RC_POINT_NULL CGPointMake(MAXFLOAT, -MAXFLOAT)
+
 @implementation RCDraggableButton
 
 - (id)initWithFrame:(CGRect)frame {
@@ -74,6 +76,8 @@
     [_longPressGestureRecognizer addTarget:self action:@selector(gestureRecognizerHandle:)];
     [_longPressGestureRecognizer setAllowableMovement:0];
     [self addGestureRecognizer:_longPressGestureRecognizer];
+    
+    [self setDockPoint:RC_POINT_NULL];
 }
 
 - (void)addButtonToKeyWindow {
@@ -182,35 +186,13 @@
     }
     
     if (_isDragging && _autoDocking) {
-        CGRect superviewFrame = self.superview.frame;
-        CGRect frame = self.frame;
-        CGFloat middleX = superviewFrame.size.width / 2;
-
-        if (self.center.x >= middleX) {
-            [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
-                self.center = CGPointMake(superviewFrame.size.width - frame.size.width / 2, self.center.y);
-                if (_autoDockingBlock) {
-                    _autoDockingBlock(self);
-                }
-            } completion:^(BOOL finished) {
-                if (_autoDockingDoneBlock) {
-                    _autoDockingDoneBlock(self);
-                }
-            }];
+        if (CGPointEqualToPoint(self.dockPoint, RC_POINT_NULL)) {
+            [self dockingToBorder];
         } else {
-            [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
-                self.center = CGPointMake(frame.size.width / 2, self.center.y);
-                if (_autoDockingBlock) {
-                    _autoDockingBlock(self);
-                }
-            } completion:^(BOOL finished) {
-                if (_autoDockingDoneBlock) {
-                    _autoDockingDoneBlock(self);
-                }
-            }];
+            [self dockingToPoint];
         }
     }
-    
+
     _isDragging = NO;
 }
 
@@ -222,6 +204,51 @@
 
 - (BOOL)isDragging {
     return _isDragging;
+}
+
+#pragma mark - Docking
+
+- (void)dockingToBorder {
+    CGRect superviewFrame = self.superview.frame;
+    CGRect frame = self.frame;
+    CGFloat middleX = superviewFrame.size.width / 2;
+    
+    if (self.center.x >= middleX) {
+        [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
+            self.center = CGPointMake(superviewFrame.size.width - frame.size.width / 2, self.center.y);
+            if (_autoDockingBlock) {
+                _autoDockingBlock(self);
+            }
+        } completion:^(BOOL finished) {
+            if (_autoDockingDoneBlock) {
+                _autoDockingDoneBlock(self);
+            }
+        }];
+    } else {
+        [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
+            self.center = CGPointMake(frame.size.width / 2, self.center.y);
+            if (_autoDockingBlock) {
+                _autoDockingBlock(self);
+            }
+        } completion:^(BOOL finished) {
+            if (_autoDockingDoneBlock) {
+                _autoDockingDoneBlock(self);
+            }
+        }];
+    }
+}
+
+- (void)dockingToPoint {
+    [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
+        self.center = self.dockPoint;
+        if (_autoDockingBlock) {
+            _autoDockingBlock(self);
+        }
+    } completion:^(BOOL finished) {
+        if (_autoDockingDoneBlock) {
+            _autoDockingDoneBlock(self);
+        }
+    }];
 }
 
 #pragma mark - Version
