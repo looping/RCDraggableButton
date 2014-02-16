@@ -38,6 +38,7 @@
 @property (nonatomic) BOOL autoDocking;
 
 @property (nonatomic) CGPoint dockPoint;
+@property (nonatomic) CGFloat limitedDistance;
 
 @property (nonatomic, copy) void(^longPressBlock)(RCDraggableButton *button);
 @property (nonatomic, copy) void(^tapBlock)(RCDraggableButton *button);

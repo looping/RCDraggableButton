@@ -78,6 +78,8 @@
     [self addGestureRecognizer:_longPressGestureRecognizer];
     
     [self setDockPoint:RC_POINT_NULL];
+    
+    [self setLimitedDistance: -1.f];
 }
 
 - (void)addButtonToKeyWindow {
@@ -151,23 +153,10 @@
         
         self.center = CGPointMake(self.center.x + offsetX, self.center.y + offsetY);
         
-        CGRect superviewFrame = self.superview.frame;
-        CGRect frame = self.frame;
-        CGFloat leftLimitX = frame.size.width / 2;
-        CGFloat rightLimitX = superviewFrame.size.width - leftLimitX;
-        CGFloat topLimitY = frame.size.height / 2;
-        CGFloat bottomLimitY = superviewFrame.size.height - topLimitY;
-        
-        if (self.center.x > rightLimitX) {
-            self.center = CGPointMake(rightLimitX, self.center.y);
-        }else if (self.center.x <= leftLimitX) {
-            self.center = CGPointMake(leftLimitX, self.center.y);
-        }
-        
-        if (self.center.y > bottomLimitY) {
-            self.center = CGPointMake(self.center.x, bottomLimitY);
-        }else if (self.center.y <= topLimitY){
-            self.center = CGPointMake(self.center.x, topLimitY);
+        if ([self isdockPointAvailable] && [self isLimitedDistanceAvailable]) {
+            [self checkIfExceedingLimitedDistanceThenFixIt];
+        } else {
+            [self checkIfOutOfBorderThenFixIt];
         }
         
         if (_draggingBlock) {
@@ -186,7 +175,7 @@
     }
     
     if (_isDragging && _autoDocking) {
-        if (CGPointEqualToPoint(self.dockPoint, RC_POINT_NULL)) {
+        if ( ![self isdockPointAvailable]) {
             [self dockingToBorder];
         } else {
             [self dockingToPoint];
@@ -207,6 +196,10 @@
 }
 
 #pragma mark - Docking
+
+- (BOOL)isdockPointAvailable {
+    return !CGPointEqualToPoint(self.dockPoint, RC_POINT_NULL);
+}
 
 - (void)dockingToBorder {
     CGRect superviewFrame = self.superview.frame;
@@ -249,6 +242,55 @@
             _autoDockingDoneBlock(self);
         }
     }];
+}
+
+#pragma mark - Dragging
+
+- (BOOL)isLimitedDistanceAvailable {
+    return (self.limitedDistance > 0);
+}
+
+- (BOOL)checkIfExceedingLimitedDistanceThenFixIt {
+    CGPoint tmpDPoint = CGPointMake(self.center.x - self.dockPoint.x, self.center.y - self.dockPoint.y);
+    
+    CGFloat distance = hypotf(tmpDPoint.x, tmpDPoint.y);
+    
+    BOOL willExceedingLimitedDistance = distance >= self.limitedDistance;
+    
+    if (willExceedingLimitedDistance) {
+        self.center = CGPointMake(tmpDPoint.x * self.limitedDistance / distance + self.dockPoint.x, tmpDPoint.y * self.limitedDistance / distance + self.dockPoint.y);
+    }
+    
+    return willExceedingLimitedDistance;
+}
+
+- (BOOL)checkIfOutOfBorderThenFixIt {
+    BOOL willOutOfBorder = NO;
+    
+    CGRect superviewFrame = self.superview.frame;
+    CGRect frame = self.frame;
+    CGFloat leftLimitX = frame.size.width / 2;
+    CGFloat rightLimitX = superviewFrame.size.width - leftLimitX;
+    CGFloat topLimitY = frame.size.height / 2;
+    CGFloat bottomLimitY = superviewFrame.size.height - topLimitY;
+    
+    if (self.center.x > rightLimitX) {
+        willOutOfBorder = YES;
+        self.center = CGPointMake(rightLimitX, self.center.y);
+    }else if (self.center.x <= leftLimitX) {
+        willOutOfBorder = YES;
+        self.center = CGPointMake(leftLimitX, self.center.y);
+    }
+    
+    if (self.center.y > bottomLimitY) {
+        willOutOfBorder = YES;
+        self.center = CGPointMake(self.center.x, bottomLimitY);
+    }else if (self.center.y <= topLimitY){
+        willOutOfBorder = YES;
+        self.center = CGPointMake(self.center.x, topLimitY);
+    }
+    
+    return willOutOfBorder;
 }
 
 #pragma mark - Version

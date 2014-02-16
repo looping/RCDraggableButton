@@ -110,17 +110,20 @@
     if ([self.view viewWithTag:89]) {
         customView = [self.view viewWithTag:89];
     } else {
-        customView = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 300, 160)];
+        customView = [[UIView alloc] initWithFrame:CGRectMake(120, 100, 160, 160)];
         [customView setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
         [customView setTag:89];
+        [customView.layer setCornerRadius:80];
         [self.view addSubview:customView];
     }
-    RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 60, 60, 60)];
+    RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(50, 50, 60, 60)];
     [avatar setBackgroundImage:[UIImage imageNamed:@"avatar"] forState:UIControlStateNormal];
     [avatar setAutoDocking:YES];
     
     [avatar setDockPoint:avatar.center];
     
+    [avatar setLimitedDistance:60.f];
+
     avatar.longPressBlock = ^(RCDraggableButton *avatar) {
         NSLog(@"\n\tAvatar in customView ===  LongPress!!! ===");
         //More todo here.
