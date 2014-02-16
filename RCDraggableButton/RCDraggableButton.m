@@ -257,21 +257,15 @@
 #pragma mark Rect Detecter
 
 - (BOOL)isInsideRect:(CGRect)rect {
-    CGRect r1 = rect;
-    CGRect r2 = self.frame;
-    
-    return  fabs((r1.origin.x * 2 + r1.size.width) / 2 - (r2.origin.x * 2 + r2.size.width) / 2) < ((r1.size.width - r2.size.width) / 2) && fabs((r1.origin.y * 2 + r1.size.height) / 2 - (r2.origin.y * 2 + r2.size.height) / 2) < ((r1.size.height - r2.size.height) / 2);
+    return  CGRectContainsRect(rect, self.frame);
 }
 
-- (BOOL)isOverlappedRect:(CGRect)rect {
-    CGRect r1 = rect;
-    CGRect r2 = self.frame;
-    
-    return  fabs((r1.origin.x * 2 + r1.size.width) / 2 - (r2.origin.x * 2 + r2.size.width) / 2) < ((r1.size.width + r2.size.width) / 2) && fabs((r1.origin.y * 2 + r1.size.height) / 2 - (r2.origin.y * 2 + r2.size.height) / 2) < ((r1.size.height + r2.size.height) / 2);
+- (BOOL)isIntersectsRect:(CGRect)rect {
+    return  CGRectIntersectsRect(rect, self.frame);
 }
 
 - (BOOL)isCrossedRect:(CGRect)rect {
-    return  [self isOverlappedRect:rect] && ![self isInsideRect:rect];
+    return  [self isIntersectsRect:rect] && ![self isInsideRect:rect];
 }
 
 #pragma mark Remove All Code Blocks
@@ -331,16 +325,16 @@
 
 #pragma mark - Remove From View Overlapped Rect
 
-+ (void)removeAllFromView:(id)view overlappedRect:(CGRect)rect {
++ (void)removeAllFromView:(id)view intersectsRect:(CGRect)rect {
     for (id subview in [self itemsInView:view]) {
-        if ([subview isOverlappedRect:rect]) {
+        if ([subview isIntersectsRect:rect]) {
             [subview removeFromSuperview];
         }
     }
 }
 
-- (void)removeFromSuperviewOverlappedRect:(CGRect)rect {
-    if (self.superview && [self isOverlappedRect:rect]) {
+- (void)removeFromSuperviewIntersectsRect:(CGRect)rect {
+    if (self.superview && [self isIntersectsRect:rect]) {
         [self removeFromSuperview];
     }
 }

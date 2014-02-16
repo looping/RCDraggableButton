@@ -180,7 +180,7 @@
     XCTAssertEqualObjects([UIButton class], [tmpDraggableButton superclass]);
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
     
-    [RCDraggableButton removeAllFromView:customView overlappedRect:CGRectMake(100, 100, 100, 100)];
+    [RCDraggableButton removeAllFromView:customView intersectsRect:CGRectMake(100, 100, 100, 100)];
     
     XCTAssertEqualObjects(NULL, [draggableButton1 superview]);
     
@@ -188,19 +188,19 @@
     
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
     
-    [tmpDraggableButton removeFromSuperviewOverlappedRect:CGRectMake(0, 100, 80, 80)];
+    [tmpDraggableButton removeFromSuperviewIntersectsRect:CGRectMake(0, 100, 80, 80)];
     
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
     
-    [tmpDraggableButton removeFromSuperviewOverlappedRect:CGRectMake(10, -10, 0, 0)];
+    [tmpDraggableButton removeFromSuperviewIntersectsRect:CGRectMake(10, -10, 0, 0)];
     
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
     
-    [tmpDraggableButton removeFromSuperviewOverlappedRect:CGRectMake(500, 10, 80, 80)];
+    [tmpDraggableButton removeFromSuperviewIntersectsRect:CGRectMake(500, 10, 80, 80)];
     
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
     
-    [tmpDraggableButton removeFromSuperviewOverlappedRect:CGRectMake(-10, -10, 80, 80)];
+    [tmpDraggableButton removeFromSuperviewIntersectsRect:CGRectMake(-10, -10, 80, 80)];
     
     XCTAssertEqualObjects(NULL, [tmpDraggableButton superview]);
 }

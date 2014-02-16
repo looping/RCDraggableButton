@@ -57,7 +57,7 @@
 - (BOOL)isInView:(id)view;
 
 - (BOOL)isInsideRect:(CGRect)rect;
-- (BOOL)isOverlappedRect:(CGRect)rect;
+- (BOOL)isIntersectsRect:(CGRect)rect;
 - (BOOL)isCrossedRect:(CGRect)rect;
 
 - (void)removeAllCodeBlocks;
@@ -70,8 +70,8 @@
 + (void)removeAllFromView:(id)view insideRect:(CGRect)rect;
 - (void)removeFromSuperviewInsideRect:(CGRect)rect;
 
-+ (void)removeAllFromView:(id)view overlappedRect:(CGRect)rect;
-- (void)removeFromSuperviewOverlappedRect:(CGRect)rect;
++ (void)removeAllFromView:(id)view intersectsRect:(CGRect)rect;
+- (void)removeFromSuperviewIntersectsRect:(CGRect)rect;
 
 + (void)removeAllFromView:(id)view crossedRect:(CGRect)rect;
 - (void)removeFromSuperviewCrossedRect:(CGRect)rect;
