@@ -230,33 +230,77 @@
     return RCDRAGGABLEBUTTON_VERSION;
 }
 
-#pragma mark - Remove all from view
+#pragma mark - Common Tools
 
-+ (void)removeAllFromView:(id)superView {
-    NSArray *subviews = [superView subviews];
+#pragma mark Items In View
+
++ (NSArray *)itemsInView:(id)view {
+    NSMutableArray *subviews = [NSMutableArray arrayWithArray:[view subviews]];
     
     if (! subviews) {
-        subviews = [[UIApplication sharedApplication].keyWindow subviews];
+        subviews = [NSMutableArray arrayWithArray:[[UIApplication sharedApplication].keyWindow subviews]];
     }
     
     for (id view in subviews) {
-        if ([view isKindOfClass:[RCDraggableButton class]]) {
-            [view removeFromSuperview];
+        if ( ![view isKindOfClass:[RCDraggableButton class]]) {
+            [subviews removeObject:view];
         }
+    }
+    
+    return subviews;
+}
+
+- (BOOL)isInView:(id)view {
+    return [self.superview isEqual:view];
+}
+
+#pragma mark Rect Detecter
+
+- (BOOL)isInsideRect:(CGRect)rect {
+    CGRect r1 = rect;
+    CGRect r2 = self.frame;
+    
+    return  fabs((r1.origin.x * 2 + r1.size.width) / 2 - (r2.origin.x * 2 + r2.size.width) / 2) < ((r1.size.width - r2.size.width) / 2) && fabs((r1.origin.y * 2 + r1.size.height) / 2 - (r2.origin.y * 2 + r2.size.height) / 2) < ((r1.size.height - r2.size.height) / 2);
+}
+
+- (BOOL)isOverlappedRect:(CGRect)rect {
+    CGRect r1 = rect;
+    CGRect r2 = self.frame;
+    
+    return  fabs((r1.origin.x * 2 + r1.size.width) / 2 - (r2.origin.x * 2 + r2.size.width) / 2) < ((r1.size.width + r2.size.width) / 2) && fabs((r1.origin.y * 2 + r1.size.height) / 2 - (r2.origin.y * 2 + r2.size.height) / 2) < ((r1.size.height + r2.size.height) / 2);
+}
+
+- (BOOL)isCrossedRect:(CGRect)rect {
+    return  [self isOverlappedRect:rect] && ![self isInsideRect:rect];
+}
+
+#pragma mark Remove All Code Blocks
+
+- (void)removeAllCodeBlocks {
+    self.longPressBlock = nil;
+    self.tapBlock = nil;
+    self.doubleTapBlock = nil;
+    
+    self.draggingBlock = nil;
+    self.dragDoneBlock = nil;
+    
+    self.autoDockingBlock = nil;
+    self.autoDockingDoneBlock = nil;
+}
+
+#pragma mark - Remove all from view
+
++ (void)removeAllFromView:(id)superView {
+    for (id view in [self itemsInView:superView]) {
+        [view removeFromSuperview];
     }
 }
 
 #pragma mark - Remove from view with tag(s)
 
 + (void)removeFromView:(id)superView withTag:(NSInteger)tag {
-    NSArray *subviews = [superView subviews];
-    
-    if (! subviews) {
-        subviews = [[UIApplication sharedApplication].keyWindow subviews];
-    }
-    
-    for (id view in subviews) {
-        if ([view isKindOfClass:[RCDraggableButton class]] && ((RCDraggableButton *)view).tag == tag) {
+    for (id view in [self itemsInView:superView]) {
+        if (((RCDraggableButton *)view).tag == tag) {
             [view removeFromSuperview];
         }
     }
@@ -268,33 +312,52 @@
     }
 }
 
-#pragma mark - Remove from view in rect
+#pragma mark - Remove from view inside rect
 
-+ (void)removeAllFromView:(id)view inRect:(CGRect)rect {
-    NSArray *subviews = [view subviews];
-    
-    if (! subviews) {
-        subviews = [[UIApplication sharedApplication].keyWindow subviews];
-    }
-    
-    for (id subview in subviews) {
-        if ([subview isKindOfClass:[RCDraggableButton class]]) {
-            CGRect newframe = [(RCDraggableButton *)subview convertRect:rect fromView:view];
-            
-            if (newframe.origin.x <= 0 && newframe.origin.y <= 0 && newframe.size.height >= ((RCDraggableButton *)subview).frame.size.height && newframe.size.width >= ((RCDraggableButton *)subview).frame.size.width) {
-                [subview removeFromSuperview];
-            }
++ (void)removeAllFromView:(id)view insideRect:(CGRect)rect {
+    for (id subview in [self itemsInView:view]) {
+        if ([subview isInsideRect:rect]) {
+            [subview removeFromSuperview];
         }
     }
 }
 
-- (void)removeFromSuperviewInRect:(CGRect)rect {
-    if (self.superview) {
-        CGRect newframe = [self convertRect:rect fromView:self.superview];
-        
-        if (newframe.origin.x <= 0 && newframe.origin.y <= 0 && newframe.size.height >= self.frame.size.height && newframe.size.width >= self.frame.size.width) {
-            [self removeFromSuperview];
+- (void)removeFromSuperviewInsideRect:(CGRect)rect {
+    if (self.superview && [self isInsideRect:rect]) {
+        [self removeFromSuperview];
+        [self removeAllCodeBlocks];
+    }
+}
+
+#pragma mark - Remove From View Overlapped Rect
+
++ (void)removeAllFromView:(id)view overlappedRect:(CGRect)rect {
+    for (id subview in [self itemsInView:view]) {
+        if ([subview isOverlappedRect:rect]) {
+            [subview removeFromSuperview];
         }
+    }
+}
+
+- (void)removeFromSuperviewOverlappedRect:(CGRect)rect {
+    if (self.superview && [self isOverlappedRect:rect]) {
+        [self removeFromSuperview];
+    }
+}
+
+#pragma mark - Remove From View Crossed Rect
+
++ (void)removeAllFromView:(id)view crossedRect:(CGRect)rect {
+    for (id subview in [self itemsInView:view]) {
+        if ([subview isCrossedRect:rect]) {
+            [subview removeFromSuperview];
+        }
+    }
+}
+
+- (void)removeFromSuperviewCrossedRect:(CGRect)rect {
+    if (self.superview && [self isInsideRect:rect]) {
+        [self removeFromSuperview];
     }
 }
 

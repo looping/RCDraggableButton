@@ -53,12 +53,27 @@
 
 + (NSString *)version;
 
++ (NSArray *)itemsInView:(id)view;
+- (BOOL)isInView:(id)view;
+
+- (BOOL)isInsideRect:(CGRect)rect;
+- (BOOL)isOverlappedRect:(CGRect)rect;
+- (BOOL)isCrossedRect:(CGRect)rect;
+
+- (void)removeAllCodeBlocks;
+
 + (void)removeAllFromView:(id)superView;
 
 + (void)removeFromView:(id)superView withTag:(NSInteger)tag;
 + (void)removeFromView:(id)superView withTags:(NSArray *)tags;
 
-+ (void)removeAllFromView:(id)view inRect:(CGRect)rect;
-- (void)removeFromSuperviewInRect:(CGRect)rect;
++ (void)removeAllFromView:(id)view insideRect:(CGRect)rect;
+- (void)removeFromSuperviewInsideRect:(CGRect)rect;
+
++ (void)removeAllFromView:(id)view overlappedRect:(CGRect)rect;
+- (void)removeFromSuperviewOverlappedRect:(CGRect)rect;
+
++ (void)removeAllFromView:(id)view crossedRect:(CGRect)rect;
+- (void)removeFromSuperviewCrossedRect:(CGRect)rect;
 
 @end

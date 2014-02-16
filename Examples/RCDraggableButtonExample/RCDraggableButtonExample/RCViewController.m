@@ -18,6 +18,8 @@
 {
     [super viewDidLoad];
     
+    [self loadTrashCan];
+    
     [self loadAvatarInKeyWindow];
     
     [self loadAvatarInCustomView];
@@ -31,38 +33,63 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)loadTrashCan {
+    UIView *trashCan = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 120)];
+    [trashCan setTag:90];
+    [trashCan setBackgroundColor:[UIColor clearColor]];
+    [trashCan setHidden:YES];
+    
+    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, 40)];
+    [tipLabel setBackgroundColor:[UIColor clearColor]];
+    [tipLabel setText:@"Drag here to remove it!"];
+    [tipLabel setTextAlignment:NSTextAlignmentCenter];
+    [tipLabel setTextColor:[UIColor blueColor]];
+    [tipLabel.layer setCornerRadius:20];
+    [tipLabel.layer setBorderWidth:1];
+    [tipLabel.layer setBorderColor:[UIColor blueColor].CGColor];
+    [tipLabel setTag:91];
+    
+    [trashCan addSubview:tipLabel];
+    [self.view addSubview:trashCan];
+}
+
 - (void)loadAvatarInKeyWindow {
     RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:nil WithFrame:CGRectMake(0, 100, 60, 60)];
     [avatar setBackgroundImage:[UIImage imageNamed:@"avatar"] forState:UIControlStateNormal];
  
     [avatar setLongPressBlock:^(RCDraggableButton *avatar) {
-        NSLog(@"\n\tAvatar in keyWindow ===  LongPress!!! ===");
-        //More todo here.
-        
+        [[self.view viewWithTag:90] setHidden:NO];
     }];
     
     [avatar setTapBlock:^(RCDraggableButton *avatar) {
-        NSLog(@"\n\tAvatar in keyWindow ===  Tap!!! ===");
-        //More todo here.
-        
+        [[self.view viewWithTag:90] setHidden:NO];
     }];
     
     [avatar setDoubleTapBlock:^(RCDraggableButton *avatar) {
-        NSLog(@"\n\tAvatar in keyWindow ===  DoubleTap!!! ===");
-        //More todo here.
-        
+        [[self.view viewWithTag:90] setHidden:NO];
     }];
     
     [avatar setDraggingBlock:^(RCDraggableButton *avatar) {
-        NSLog(@"\n\tAvatar in keyWindow === Dragging!!! ===");
-        //More todo here.
+        [[self.view viewWithTag:90] setHidden:NO];
         
+        UILabel *tipsLabel = (UILabel *)[self.view viewWithTag:91];
+        if ([avatar isInsideRect:[self.view viewWithTag:90].frame]) {
+            [(UILabel *)[self.view viewWithTag:91] setTextColor:[UIColor redColor]];
+            [tipsLabel setText:@"Release to remove it!"];
+        } else {
+            [tipsLabel setTextColor:[UIColor blueColor]];
+            [tipsLabel setText:@"Drag here to remove it!"];
+        }
     }];
     
     [avatar setDragDoneBlock:^(RCDraggableButton *avatar) {
-        NSLog(@"\n\tAvatar in keyWindow === DragDone!!! ===");
-        //More todo here.
-        
+        UILabel *tipsLabel = (UILabel *)[self.view viewWithTag:91];
+        if ([avatar isInsideRect:[self.view viewWithTag:90].frame]) {
+            [tipsLabel setTextColor:[UIColor blueColor]];
+            [tipsLabel setText:@"Drag here to remove it!"];
+        }
+        [[self.view viewWithTag:90] setHidden:YES];
+        [avatar removeFromSuperviewInsideRect:[self.view viewWithTag:90].frame];
     }];
     
     [avatar setAutoDockingBlock:^(RCDraggableButton *avatar) {
@@ -83,7 +110,7 @@
     if ([self.view viewWithTag:89]) {
         customView = [self.view viewWithTag:89];
     } else {
-        customView = [[UIView alloc] initWithFrame:CGRectMake(10, 64, 300, 200)];
+        customView = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 300, 160)];
         [customView setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
         [customView setTag:89];
         [self.view addSubview:customView];

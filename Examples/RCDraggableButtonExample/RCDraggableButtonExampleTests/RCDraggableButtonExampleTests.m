@@ -113,7 +113,7 @@
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
 }
 
-- (void)testRemoveFromViewInFrame {
+- (void)testRemoveFromViewInsideRect {
     UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 300, 300)];
     [customView setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
     
@@ -134,7 +134,7 @@
     XCTAssertEqualObjects([UIButton class], [tmpDraggableButton superclass]);
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
     
-    [RCDraggableButton removeAllFromView:customView inRect:CGRectMake(100, 100, 100, 100)];
+    [RCDraggableButton removeAllFromView:customView insideRect:CGRectMake(100, 100, 100, 100)];
 
     XCTAssertEqualObjects(NULL, [draggableButton1 superview]);
     
@@ -142,22 +142,119 @@
     
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
     
-    [tmpDraggableButton removeFromSuperviewInRect:CGRectMake(10, 10, 80, 80)];
+    [tmpDraggableButton removeFromSuperviewInsideRect:CGRectMake(10, 10, 80, 80)];
     
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
 
-    [tmpDraggableButton removeFromSuperviewInRect:CGRectMake(10, -10, 80, 80)];
+    [tmpDraggableButton removeFromSuperviewInsideRect:CGRectMake(10, -10, 80, 80)];
     
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
     
-    [tmpDraggableButton removeFromSuperviewInRect:CGRectMake(-10, 10, 80, 80)];
+    [tmpDraggableButton removeFromSuperviewInsideRect:CGRectMake(-10, 10, 80, 80)];
     
     XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
     
-    [tmpDraggableButton removeFromSuperviewInRect:CGRectMake(-10, -10, 80, 80)];
+    [tmpDraggableButton removeFromSuperviewInsideRect:CGRectMake(-10, -10, 80, 80)];
     
     XCTAssertEqualObjects(NULL, [tmpDraggableButton superview]);
 }
 
+- (void)testRemoveFromViewOverlappedRect {
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 300, 300)];
+    [customView setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
+    
+    RCDraggableButton *draggableButton1 = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 120, 60, 60)];
+    [draggableButton1 setTag:89];
+    
+    XCTAssertEqualObjects([UIButton class], [draggableButton1 superclass]);
+    XCTAssertEqualObjects(customView, [draggableButton1 superview]);
+    
+    RCDraggableButton *draggableButton2 = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 120, 60, 60)];
+    [draggableButton2 setTag:90];
+    
+    XCTAssertEqualObjects([UIButton class], [draggableButton2 superclass]);
+    XCTAssertEqualObjects(customView, [draggableButton2 superview]);
+    
+    RCDraggableButton *tmpDraggableButton = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(0, 0, 60, 60)];
+    
+    XCTAssertEqualObjects([UIButton class], [tmpDraggableButton superclass]);
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [RCDraggableButton removeAllFromView:customView overlappedRect:CGRectMake(100, 100, 100, 100)];
+    
+    XCTAssertEqualObjects(NULL, [draggableButton1 superview]);
+    
+    XCTAssertEqualObjects(NULL, [draggableButton2 superview]);
+    
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [tmpDraggableButton removeFromSuperviewOverlappedRect:CGRectMake(0, 100, 80, 80)];
+    
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [tmpDraggableButton removeFromSuperviewOverlappedRect:CGRectMake(10, -10, 0, 0)];
+    
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [tmpDraggableButton removeFromSuperviewOverlappedRect:CGRectMake(500, 10, 80, 80)];
+    
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [tmpDraggableButton removeFromSuperviewOverlappedRect:CGRectMake(-10, -10, 80, 80)];
+    
+    XCTAssertEqualObjects(NULL, [tmpDraggableButton superview]);
+}
+
+- (void)testRemoveFromViewCrossedRect {
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 300, 300)];
+    [customView setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
+    
+    RCDraggableButton *draggableButton1 = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 120, 60, 500)];
+    [draggableButton1 setTag:89];
+    
+    XCTAssertEqualObjects([UIButton class], [draggableButton1 superclass]);
+    XCTAssertEqualObjects(customView, [draggableButton1 superview]);
+    
+    RCDraggableButton *draggableButton2 = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 120, 60, 60)];
+    [draggableButton2 setTag:90];
+    
+    XCTAssertEqualObjects([UIButton class], [draggableButton2 superclass]);
+    XCTAssertEqualObjects(customView, [draggableButton2 superview]);
+    
+    RCDraggableButton *tmpDraggableButton = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(0, 0, 60, 60)];
+    
+    XCTAssertEqualObjects([UIButton class], [tmpDraggableButton superclass]);
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [RCDraggableButton removeAllFromView:customView crossedRect:CGRectMake(100, 100, 100, 100)];
+    
+    XCTAssertEqualObjects(NULL, [draggableButton1 superview]);
+    
+    XCTAssertEqualObjects(customView, [draggableButton2 superview]);
+    
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [RCDraggableButton removeAllFromView:customView crossedRect:CGRectMake(100, 100, 100, 60)];
+    
+    XCTAssertEqualObjects(NULL, [draggableButton2 superview]);
+    
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+
+    [tmpDraggableButton removeFromSuperviewCrossedRect:CGRectMake(10, 10, 80, 80)];
+    
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [tmpDraggableButton removeFromSuperviewCrossedRect:CGRectMake(10, -10, 80, 80)];
+    
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [tmpDraggableButton removeFromSuperviewCrossedRect:CGRectMake(-10, 10, 80, 80)];
+    
+    XCTAssertEqualObjects(customView, [tmpDraggableButton superview]);
+    
+    [tmpDraggableButton removeFromSuperviewCrossedRect:CGRectMake(-10, -10, 80, 80)];
+    
+    XCTAssertEqualObjects(NULL, [tmpDraggableButton superview]);
+}
 
 @end
