@@ -9,8 +9,11 @@
 
 A draggable button that appears in your view.
 
-<img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshot.png" alt="RCDraggableButton Screenshot" width="320" height="568" />
-<img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Demo.gif" alt="RCDraggableButton Demo" width="320" height="568" />
+<img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshots/Screenshot1.png" alt="RCDraggableButton Screenshot1" width="320" height="568" />
+
+<img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshots/Screenshot2.png" alt="RCDraggableButton Screenshot2" width="320" height="568" />
+
+<img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshots/Screenshot3.png" alt="RCDraggableButton Screenshot3" width="320" height="568" />
 
 ## Note
 
@@ -25,7 +28,14 @@ A draggable button that appears in your view.
 
 ## Demo
 
-Build and run the `RCDraggableButtonExample` project in Xcode5 to see `RCDraggableButton` in action.
+In terminal, run
+
+``` bash
+cd [projdir]/RCDraggableButtonDemo
+pod install
+```
+
+Now, build and run the `RCDraggableButtonDemo` project using `RCDraggableButtonDemo.xcworkspace` in Xcode5 to see `RCDraggableButton` in action.
 
 
 ## Installation
@@ -42,7 +52,7 @@ pod 'RCDraggableButton', '~> 0.1'
 
 ### Manual Install
 
-All you need to do is drop `RCDraggableButton` files into your project, and add `#include "RCDraggableButton.h"` to the top of classes that will use it.
+All you need to do is drop `Classes` files into your project, and add `#include "RCDraggableButton.h"` to the top of classes that will use it.
 
 
 ## Example Usage
@@ -50,12 +60,13 @@ All you need to do is drop `RCDraggableButton` files into your project, and add 
 In your AppViewController's `- (void)viewDidLoad` create draggableButton and add it to keyWindow or customView.
 
 ```objective-c
-// Add button to keyWindow
-	RCDraggableButton *draggableButton = [[RCDraggableButton alloc] initInKeyWindowWithFrame:CGRectMake(0, 100, 60, 60)];
+// Set view as nil, means add button to keyWindow
+	RCDraggableButton *draggableButton = [[RCDraggableButton alloc] initInView:nil WithFrame:CGRectMake(120, 120, 60, 60)];
 	
-// Or Add it to customView
+// Or add button to customView that you set in -init method
 	UIView *customView = ...;
     [self.view addSubview:customView];
+    
     RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:customView WithFrame:CGRectMake(120, 120, 60, 60)];
 ```
 
@@ -65,6 +76,9 @@ You can also use it manually:
 	RCDraggableButton *draggableButton = [[RCDraggableButton alloc] initWithFrame:CGRectMake(0, 100, 60, 60)];
 	[self.view addSubview:draggableButton];
 ```
+
+For more usage example please look up the demo project in `RCDraggableButtonDemo` folder, or the source files in `Classes` folder.
+
 
 ## License
 
