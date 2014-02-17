@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3B10FB18A65EFA008F0888"
-               BuildableName = "RCDraggableButtonExample.app"
-               BlueprintName = "RCDraggableButtonExample"
-               ReferencedContainer = "container:RCDraggableButtonExample.xcodeproj">
+               BuildableName = "RCDraggableButtonDemo.app"
+               BlueprintName = "RCDraggableButtonDemo"
+               ReferencedContainer = "container:RCDraggableButtonDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3B111C18A65EFA008F0888"
-               BuildableName = "RCDraggableButtonExampleTests.xctest"
-               BlueprintName = "RCDraggableButtonExampleTests"
-               ReferencedContainer = "container:RCDraggableButtonExample.xcodeproj">
+               BuildableName = "RCDraggableButtonDemoTests.xctest"
+               BlueprintName = "RCDraggableButtonDemoTests"
+               ReferencedContainer = "container:RCDraggableButtonDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E3B10FB18A65EFA008F0888"
-            BuildableName = "RCDraggableButtonExample.app"
-            BlueprintName = "RCDraggableButtonExample"
-            ReferencedContainer = "container:RCDraggableButtonExample.xcodeproj">
+            BuildableName = "RCDraggableButtonDemo.app"
+            BlueprintName = "RCDraggableButtonDemo"
+            ReferencedContainer = "container:RCDraggableButtonDemo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E3B10FB18A65EFA008F0888"
-            BuildableName = "RCDraggableButtonExample.app"
-            BlueprintName = "RCDraggableButtonExample"
-            ReferencedContainer = "container:RCDraggableButtonExample.xcodeproj">
+            BuildableName = "RCDraggableButtonDemo.app"
+            BlueprintName = "RCDraggableButtonDemo"
+            ReferencedContainer = "container:RCDraggableButtonDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E3B10FB18A65EFA008F0888"
-            BuildableName = "RCDraggableButtonExample.app"
-            BlueprintName = "RCDraggableButtonExample"
-            ReferencedContainer = "container:RCDraggableButtonExample.xcodeproj">
+            BuildableName = "RCDraggableButtonDemo.app"
+            BlueprintName = "RCDraggableButtonDemo"
+            ReferencedContainer = "container:RCDraggableButtonDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -20,9 +20,9 @@
 		6E3B112018A65EFA008F0888 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E3B10FF18A65EFA008F0888 /* Foundation.framework */; };
 		6E3B112118A65EFA008F0888 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E3B110318A65EFA008F0888 /* UIKit.framework */; };
 		6E3B112918A65EFA008F0888 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E3B112718A65EFA008F0888 /* InfoPlist.strings */; };
-		6E3B112B18A65EFA008F0888 /* RCDraggableButtonExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3B112A18A65EFA008F0888 /* RCDraggableButtonExampleTests.m */; };
-		6E3B113718A65F6F008F0888 /* RCDraggableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3B113618A65F6F008F0888 /* RCDraggableButton.m */; };
+		6E3B112B18A65EFA008F0888 /* RCDraggableButtonDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3B112A18A65EFA008F0888 /* RCDraggableButtonDemoTests.m */; };
 		6E3B113C18A66A8D008F0888 /* avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E3B113B18A66A8D008F0888 /* avatar@2x.png */; };
+		E71B6C1355CF48359ADDAF07 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A8D56F1FA34206853F3475 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,28 +36,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6E3B10FC18A65EFA008F0888 /* RCDraggableButtonExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RCDraggableButtonExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FCC6717AD59413894DF7B06 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		6E3B10FC18A65EFA008F0888 /* RCDraggableButtonDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RCDraggableButtonDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E3B10FF18A65EFA008F0888 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6E3B110118A65EFA008F0888 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6E3B110318A65EFA008F0888 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6E3B110718A65EFA008F0888 /* RCDraggableButtonExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RCDraggableButtonExample-Info.plist"; sourceTree = "<group>"; };
+		6E3B110718A65EFA008F0888 /* RCDraggableButtonDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RCDraggableButtonDemo-Info.plist"; sourceTree = "<group>"; };
 		6E3B110918A65EFA008F0888 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6E3B110B18A65EFA008F0888 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6E3B110D18A65EFA008F0888 /* RCDraggableButtonExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCDraggableButtonExample-Prefix.pch"; sourceTree = "<group>"; };
+		6E3B110D18A65EFA008F0888 /* RCDraggableButtonDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCDraggableButtonDemo-Prefix.pch"; sourceTree = "<group>"; };
 		6E3B110E18A65EFA008F0888 /* RCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCAppDelegate.h; sourceTree = "<group>"; };
 		6E3B110F18A65EFA008F0888 /* RCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCAppDelegate.m; sourceTree = "<group>"; };
 		6E3B111218A65EFA008F0888 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6E3B111418A65EFA008F0888 /* RCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCViewController.h; sourceTree = "<group>"; };
 		6E3B111518A65EFA008F0888 /* RCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCViewController.m; sourceTree = "<group>"; };
 		6E3B111718A65EFA008F0888 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6E3B111D18A65EFA008F0888 /* RCDraggableButtonExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RCDraggableButtonExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E3B111D18A65EFA008F0888 /* RCDraggableButtonDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RCDraggableButtonDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E3B111E18A65EFA008F0888 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		6E3B112618A65EFA008F0888 /* RCDraggableButtonExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RCDraggableButtonExampleTests-Info.plist"; sourceTree = "<group>"; };
+		6E3B112618A65EFA008F0888 /* RCDraggableButtonDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RCDraggableButtonDemoTests-Info.plist"; sourceTree = "<group>"; };
 		6E3B112818A65EFA008F0888 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6E3B112A18A65EFA008F0888 /* RCDraggableButtonExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCDraggableButtonExampleTests.m; sourceTree = "<group>"; };
-		6E3B113518A65F6F008F0888 /* RCDraggableButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDraggableButton.h; sourceTree = "<group>"; };
-		6E3B113618A65F6F008F0888 /* RCDraggableButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDraggableButton.m; sourceTree = "<group>"; };
+		6E3B112A18A65EFA008F0888 /* RCDraggableButtonDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCDraggableButtonDemoTests.m; sourceTree = "<group>"; };
 		6E3B113B18A66A8D008F0888 /* avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar@2x.png"; sourceTree = "<group>"; };
+		95A8D56F1FA34206853F3475 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +68,7 @@
 				6E3B110218A65EFA008F0888 /* CoreGraphics.framework in Frameworks */,
 				6E3B110418A65EFA008F0888 /* UIKit.framework in Frameworks */,
 				6E3B110018A65EFA008F0888 /* Foundation.framework in Frameworks */,
+				E71B6C1355CF48359ADDAF07 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,19 +88,19 @@
 		6E3B10F318A65EFA008F0888 = {
 			isa = PBXGroup;
 			children = (
-				6E3B113418A65F3B008F0888 /* RCDraggableButton */,
-				6E3B110518A65EFA008F0888 /* RCDraggableButtonExample */,
-				6E3B112418A65EFA008F0888 /* RCDraggableButtonExampleTests */,
+				6E3B110518A65EFA008F0888 /* RCDraggableButtonDemo */,
+				6E3B112418A65EFA008F0888 /* RCDraggableButtonDemoTests */,
 				6E3B10FE18A65EFA008F0888 /* Frameworks */,
 				6E3B10FD18A65EFA008F0888 /* Products */,
+				5FCC6717AD59413894DF7B06 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
 		6E3B10FD18A65EFA008F0888 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E3B10FC18A65EFA008F0888 /* RCDraggableButtonExample.app */,
-				6E3B111D18A65EFA008F0888 /* RCDraggableButtonExampleTests.xctest */,
+				6E3B10FC18A65EFA008F0888 /* RCDraggableButtonDemo.app */,
+				6E3B111D18A65EFA008F0888 /* RCDraggableButtonDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,11 +112,12 @@
 				6E3B110118A65EFA008F0888 /* CoreGraphics.framework */,
 				6E3B110318A65EFA008F0888 /* UIKit.framework */,
 				6E3B111E18A65EFA008F0888 /* XCTest.framework */,
+				95A8D56F1FA34206853F3475 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6E3B110518A65EFA008F0888 /* RCDraggableButtonExample */ = {
+		6E3B110518A65EFA008F0888 /* RCDraggableButtonDemo */ = {
 			isa = PBXGroup;
 			children = (
 				6E3B110E18A65EFA008F0888 /* RCAppDelegate.h */,
@@ -127,71 +129,63 @@
 				6E3B113B18A66A8D008F0888 /* avatar@2x.png */,
 				6E3B110618A65EFA008F0888 /* Supporting Files */,
 			);
-			path = RCDraggableButtonExample;
+			path = RCDraggableButtonDemo;
 			sourceTree = "<group>";
 		};
 		6E3B110618A65EFA008F0888 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6E3B110718A65EFA008F0888 /* RCDraggableButtonExample-Info.plist */,
+				6E3B110718A65EFA008F0888 /* RCDraggableButtonDemo-Info.plist */,
 				6E3B110818A65EFA008F0888 /* InfoPlist.strings */,
 				6E3B110B18A65EFA008F0888 /* main.m */,
-				6E3B110D18A65EFA008F0888 /* RCDraggableButtonExample-Prefix.pch */,
+				6E3B110D18A65EFA008F0888 /* RCDraggableButtonDemo-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6E3B112418A65EFA008F0888 /* RCDraggableButtonExampleTests */ = {
+		6E3B112418A65EFA008F0888 /* RCDraggableButtonDemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				6E3B112A18A65EFA008F0888 /* RCDraggableButtonExampleTests.m */,
+				6E3B112A18A65EFA008F0888 /* RCDraggableButtonDemoTests.m */,
 				6E3B112518A65EFA008F0888 /* Supporting Files */,
 			);
-			path = RCDraggableButtonExampleTests;
+			path = RCDraggableButtonDemoTests;
 			sourceTree = "<group>";
 		};
 		6E3B112518A65EFA008F0888 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6E3B112618A65EFA008F0888 /* RCDraggableButtonExampleTests-Info.plist */,
+				6E3B112618A65EFA008F0888 /* RCDraggableButtonDemoTests-Info.plist */,
 				6E3B112718A65EFA008F0888 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6E3B113418A65F3B008F0888 /* RCDraggableButton */ = {
-			isa = PBXGroup;
-			children = (
-				6E3B113518A65F6F008F0888 /* RCDraggableButton.h */,
-				6E3B113618A65F6F008F0888 /* RCDraggableButton.m */,
-			);
-			name = RCDraggableButton;
-			path = ../../RCDraggableButton;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6E3B10FB18A65EFA008F0888 /* RCDraggableButtonExample */ = {
+		6E3B10FB18A65EFA008F0888 /* RCDraggableButtonDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E3B112E18A65EFB008F0888 /* Build configuration list for PBXNativeTarget "RCDraggableButtonExample" */;
+			buildConfigurationList = 6E3B112E18A65EFB008F0888 /* Build configuration list for PBXNativeTarget "RCDraggableButtonDemo" */;
 			buildPhases = (
+				F5E1462FC3084B05B78A7480 /* Check Pods Manifest.lock */,
 				6E3B10F818A65EFA008F0888 /* Sources */,
 				6E3B10F918A65EFA008F0888 /* Frameworks */,
 				6E3B10FA18A65EFA008F0888 /* Resources */,
+				7F57E22104454A6194E34BEC /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = RCDraggableButtonExample;
+			name = RCDraggableButtonDemo;
 			productName = RCDraggableButtonExample;
-			productReference = 6E3B10FC18A65EFA008F0888 /* RCDraggableButtonExample.app */;
+			productReference = 6E3B10FC18A65EFA008F0888 /* RCDraggableButtonDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6E3B111C18A65EFA008F0888 /* RCDraggableButtonExampleTests */ = {
+		6E3B111C18A65EFA008F0888 /* RCDraggableButtonDemoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E3B113118A65EFB008F0888 /* Build configuration list for PBXNativeTarget "RCDraggableButtonExampleTests" */;
+			buildConfigurationList = 6E3B113118A65EFB008F0888 /* Build configuration list for PBXNativeTarget "RCDraggableButtonDemoTests" */;
 			buildPhases = (
 				6E3B111918A65EFA008F0888 /* Sources */,
 				6E3B111A18A65EFA008F0888 /* Frameworks */,
@@ -202,9 +196,9 @@
 			dependencies = (
 				6E3B112318A65EFA008F0888 /* PBXTargetDependency */,
 			);
-			name = RCDraggableButtonExampleTests;
+			name = RCDraggableButtonDemoTests;
 			productName = RCDraggableButtonExampleTests;
-			productReference = 6E3B111D18A65EFA008F0888 /* RCDraggableButtonExampleTests.xctest */;
+			productReference = 6E3B111D18A65EFA008F0888 /* RCDraggableButtonDemoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -222,7 +216,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6E3B10F718A65EFA008F0888 /* Build configuration list for PBXProject "RCDraggableButtonExample" */;
+			buildConfigurationList = 6E3B10F718A65EFA008F0888 /* Build configuration list for PBXProject "RCDraggableButtonDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -235,8 +229,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E3B10FB18A65EFA008F0888 /* RCDraggableButtonExample */,
-				6E3B111C18A65EFA008F0888 /* RCDraggableButtonExampleTests */,
+				6E3B10FB18A65EFA008F0888 /* RCDraggableButtonDemo */,
+				6E3B111C18A65EFA008F0888 /* RCDraggableButtonDemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -263,12 +257,44 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7F57E22104454A6194E34BEC /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5E1462FC3084B05B78A7480 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6E3B10F818A65EFA008F0888 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E3B113718A65F6F008F0888 /* RCDraggableButton.m in Sources */,
 				6E3B110C18A65EFA008F0888 /* main.m in Sources */,
 				6E3B111018A65EFA008F0888 /* RCAppDelegate.m in Sources */,
 				6E3B111618A65EFA008F0888 /* RCViewController.m in Sources */,
@@ -279,7 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E3B112B18A65EFA008F0888 /* RCDraggableButtonExampleTests.m in Sources */,
+				6E3B112B18A65EFA008F0888 /* RCDraggableButtonDemoTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +314,7 @@
 /* Begin PBXTargetDependency section */
 		6E3B112318A65EFA008F0888 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E3B10FB18A65EFA008F0888 /* RCDraggableButtonExample */;
+			target = 6E3B10FB18A65EFA008F0888 /* RCDraggableButtonDemo */;
 			targetProxy = 6E3B112218A65EFA008F0888 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -395,32 +421,34 @@
 		};
 		6E3B112F18A65EFB008F0888 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FCC6717AD59413894DF7B06 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RCDraggableButtonExample/RCDraggableButtonExample-Prefix.pch";
-				INFOPLIST_FILE = "RCDraggableButtonExample/RCDraggableButtonExample-Info.plist";
+				GCC_PREFIX_HEADER = "RCDraggableButtonDemo/RCDraggableButtonDemo-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/RCDraggableButtonDemo/RCDraggableButtonDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RCDraggableButtonDemo;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		6E3B113018A65EFB008F0888 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FCC6717AD59413894DF7B06 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RCDraggableButtonExample/RCDraggableButtonExample-Prefix.pch";
-				INFOPLIST_FILE = "RCDraggableButtonExample/RCDraggableButtonExample-Info.plist";
+				GCC_PREFIX_HEADER = "RCDraggableButtonDemo/RCDraggableButtonDemo-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/RCDraggableButtonDemo/RCDraggableButtonDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RCDraggableButtonDemo;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -428,20 +456,25 @@
 		6E3B113218A65EFB008F0888 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RCDraggableButtonExample.app/RCDraggableButtonExample";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RCDraggableButtonDemo.app/RCDraggableButtonDemo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RCDraggableButtonExample/RCDraggableButtonExample-Prefix.pch";
+				GCC_PREFIX_HEADER = "RCDraggableButtonDemo/RCDraggableButtonDemo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "RCDraggableButtonExampleTests/RCDraggableButtonExampleTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode51-Beta4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					../,
+				);
+				INFOPLIST_FILE = "RCDraggableButtonDemoTests/RCDraggableButtonDemoTests-Info.plist";
+				PRODUCT_NAME = RCDraggableButtonDemoTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -450,16 +483,21 @@
 		6E3B113318A65EFB008F0888 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RCDraggableButtonExample.app/RCDraggableButtonExample";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RCDraggableButtonDemo.app/RCDraggableButtonDemo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RCDraggableButtonExample/RCDraggableButtonExample-Prefix.pch";
-				INFOPLIST_FILE = "RCDraggableButtonExampleTests/RCDraggableButtonExampleTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "RCDraggableButtonDemo/RCDraggableButtonDemo-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode51-Beta4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					../,
+				);
+				INFOPLIST_FILE = "RCDraggableButtonDemoTests/RCDraggableButtonDemoTests-Info.plist";
+				PRODUCT_NAME = RCDraggableButtonDemoTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -468,7 +506,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6E3B10F718A65EFA008F0888 /* Build configuration list for PBXProject "RCDraggableButtonExample" */ = {
+		6E3B10F718A65EFA008F0888 /* Build configuration list for PBXProject "RCDraggableButtonDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E3B112C18A65EFB008F0888 /* Debug */,
@@ -477,7 +515,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E3B112E18A65EFB008F0888 /* Build configuration list for PBXNativeTarget "RCDraggableButtonExample" */ = {
+		6E3B112E18A65EFB008F0888 /* Build configuration list for PBXNativeTarget "RCDraggableButtonDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E3B112F18A65EFB008F0888 /* Debug */,
@@ -486,7 +524,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E3B113118A65EFB008F0888 /* Build configuration list for PBXNativeTarget "RCDraggableButtonExampleTests" */ = {
+		6E3B113118A65EFB008F0888 /* Build configuration list for PBXNativeTarget "RCDraggableButtonDemoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E3B113218A65EFB008F0888 /* Debug */,

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+xcodebuild \
+-workspace RCDraggableButtonDemo/RCDraggableButtonDemo.xcworkspace \
+-scheme RCDraggableButtonDemo \
+-sdk iphonesimulator \
+clean build \
+ONLY_ACTIVE_ARCH=NO \
+RUN_CLANG_STATIC_ANALYZER=YES \
+CLANG_STATIC_ANALYZER_MODE=deep | xcpretty -c

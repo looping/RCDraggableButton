@@ -1,4 +1,3 @@
-language: objective-c
-install: echo
-script: 
-  - xcodebuild -project ./Examples/RCDraggableButtonExample/RCDraggableButtonExample.xcodeproj -scheme RCDraggableButtonExample -sdk iphonesimulator7.0 -configuration Debug -destination 'platform=iOS Simulator,OS=7.0,name=iPhone Retina (4-inch)' test
+nguage: objective-c
+before_script: script/before_ci
+script: script/ci

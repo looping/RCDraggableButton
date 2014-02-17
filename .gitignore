@@ -31,3 +31,5 @@ DerivedData
 
 # CocoaPods
 Pods
+*.xcworkspace
+Podfile.lock

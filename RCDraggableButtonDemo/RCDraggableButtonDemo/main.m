@@ -1,6 +1,6 @@
 //
 //  main.m
-//  RCDraggableButtonExample
+//  RCDraggableButtonDemo
 //
 //  Created by Looping on 14-2-8.
 //  Copyright (c) 2014年 RidgeCorn. All rights reserved.

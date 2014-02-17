@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+gem install -N --no-rdoc --no-update-sources cocoapods xcpretty
+
+cd JazzHandsDemo && pod install

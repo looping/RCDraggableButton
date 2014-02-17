@@ -9,9 +9,9 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '5.0'
   s.ios.deployment_target = '5.0'
 
-  s.source       = { :git => "https://github.com/RidgeCorn/RCDraggableButton.git", :tag => "0.2.1" }
-  s.source_files  = 'RCDraggableButton'
-  s.public_header_files = 'RCDraggableButton/*.h'
+  s.source       = { :git => "https://github.com/RidgeCorn/RCDraggableButton.git", :tag => s.version.to_s }
+  s.source_files  = 'Classes'
+  s.public_header_files = 'Classes/*.h'
 
   s.requires_arc = true
 end
