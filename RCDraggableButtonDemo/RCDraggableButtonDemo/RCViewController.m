@@ -3,7 +3,7 @@
 //  RCDraggableButtonDemo
 //
 //  Created by Looping on 14-2-8.
-//  Copyright (c) 2014年 RidgeCorn. All rights reserved.
+//  Copyright (c) 2014 RidgeCorn. All rights reserved.
 //
 
 #import "RCViewController.h"
@@ -30,7 +30,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)loadTrashCan {
@@ -82,7 +81,7 @@
         }
     }];
     
-    [avatar setDragDoneBlock:^(RCDraggableButton *avatar) {
+    [avatar setDragEndedBlock:^(RCDraggableButton *avatar) {
         UILabel *tipsLabel = (UILabel *)[self.view viewWithTag:91];
         if ([avatar isInsideRect:[self.view viewWithTag:90].frame]) {
             [tipsLabel setTextColor:[UIColor blueColor]];
@@ -98,7 +97,7 @@
         
     }];
     
-    [avatar setAutoDockingDoneBlock:^(RCDraggableButton *avatar) {
+    [avatar setAutoDockEndedBlock:^(RCDraggableButton *avatar) {
         NSLog(@"\n\tAvatar in keyWindow === AutoDockingDone!!! ===");
         //More todo here.
         
@@ -142,7 +141,7 @@
         
     };
     
-    avatar.dragDoneBlock = ^(RCDraggableButton *avatar) {
+    avatar.dragEndedBlock = ^(RCDraggableButton *avatar) {
         NSLog(@"\n\tAvatar in customView === DragDone!!! ===");
         //More todo here.
         
@@ -154,7 +153,7 @@
         
     };
     
-    avatar.autoDockingDoneBlock = ^(RCDraggableButton *avatar) {
+    avatar.autoDockEndedBlock = ^(RCDraggableButton *avatar) {
         NSLog(@"\n\tAvatar in customView === AutoDockingDone!!! ===");
         //More todo here.
         

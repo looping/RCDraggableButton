@@ -29,9 +29,8 @@
 
 @interface RCDraggableButton : UIButton {
     BOOL _isDragging;
-    BOOL _singleTapBeenCanceled;
-    CGPoint _beginLocation;
-    UILongPressGestureRecognizer *_longPressGestureRecognizer;
+    BOOL _singleTapCanceled;
+    CGPoint _touchBeginPoint;
 }
 
 @property (nonatomic) BOOL draggable;
@@ -45,10 +44,10 @@
 @property (nonatomic, copy) void(^doubleTapBlock)(RCDraggableButton *button);
 
 @property (nonatomic, copy) void(^draggingBlock)(RCDraggableButton *button);
-@property (nonatomic, copy) void(^dragDoneBlock)(RCDraggableButton *button);
+@property (nonatomic, copy) void(^dragEndedBlock)(RCDraggableButton *button);
 
 @property (nonatomic, copy) void(^autoDockingBlock)(RCDraggableButton *button);
-@property (nonatomic, copy) void(^autoDockingDoneBlock)(RCDraggableButton *button);
+@property (nonatomic, copy) void(^autoDockEndedBlock)(RCDraggableButton *button);
 
 - (id)initInView:(id)view WithFrame:(CGRect)frame;
 
@@ -63,12 +62,12 @@
 - (BOOL)isIntersectsRect:(CGRect)rect;
 - (BOOL)isCrossedRect:(CGRect)rect;
 
-- (void)removeAllCodeBlocks;
+- (void)cleanAllCodeBlocks;
 
-+ (void)removeAllFromView:(id)superView;
++ (void)removeAllFromView:(id)view;
 
-+ (void)removeFromView:(id)superView withTag:(NSInteger)tag;
-+ (void)removeFromView:(id)superView withTags:(NSArray *)tags;
++ (void)removeFromView:(id)view withTag:(NSInteger)tag;
++ (void)removeFromView:(id)view withTags:(NSArray *)tags;
 
 + (void)removeAllFromView:(id)view insideRect:(CGRect)rect;
 - (void)removeFromSuperviewInsideRect:(CGRect)rect;

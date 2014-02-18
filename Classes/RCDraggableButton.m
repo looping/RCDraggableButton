@@ -25,6 +25,7 @@
 //
 
 #import "RCDraggableButton.h"
+
 #define RC_WAITING_KEYWINDOW_AVAILABLE 0.f
 #define RC_AUTODOCKING_ANIMATE_DURATION 0.2f
 #define RC_DOUBLE_TAP_TIME_INTERVAL 0.36f
@@ -33,16 +34,20 @@
 
 @implementation RCDraggableButton
 
-- (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+#pragma mark - Init
+
+- (id)init {
+    self = [super init];
+    
     if (self) {
         [self defaultSetting];
     }
     return self;
 }
 
-- (id)init {
-    self = [super init];
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    
     if (self) {
         [self defaultSetting];
     }
@@ -51,16 +56,20 @@
 
 - (id)initInView:(id)view WithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
+    
     if (self) {
+        [self defaultSetting];
+
         if (view) {
             [view addSubview:self];
         } else {
             [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:RC_WAITING_KEYWINDOW_AVAILABLE];
         }
-        [self defaultSetting];
     }
     return self;
 }
+
+#pragma mark Default Setting
 
 - (void)defaultSetting {
     [self.layer setCornerRadius:self.frame.size.height / 2];
@@ -70,23 +79,25 @@
     
     _draggable = YES;
     _autoDocking = YES;
-    _singleTapBeenCanceled = NO;
+    _singleTapCanceled = NO;
     
-    _longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] init];
-    [_longPressGestureRecognizer addTarget:self action:@selector(gestureRecognizerHandle:)];
-    [_longPressGestureRecognizer setAllowableMovement:0];
-    [self addGestureRecognizer:_longPressGestureRecognizer];
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] init];
+    [longPressGestureRecognizer addTarget:self action:@selector(gestureRecognizerHandle:)];
+    [longPressGestureRecognizer setAllowableMovement:0];
+    [self addGestureRecognizer:longPressGestureRecognizer];
     
     [self setDockPoint:RC_POINT_NULL];
     
     [self setLimitedDistance: -1.f];
 }
 
+#pragma mark Add Button To KeyWindow
+
 - (void)addButtonToKeyWindow {
     [[UIApplication sharedApplication].keyWindow addSubview:self];
 }
 
-#pragma mark - Gesture recognizer handle
+#pragma mark - Gesture Recognizer Handle
 
 - (void)gestureRecognizerHandle:(UILongPressGestureRecognizer *)gestureRecognizer {
     switch ([gestureRecognizer state]) {
@@ -100,11 +111,10 @@
         default:
             break;
     }
-
 }
 
 #pragma mark - Blocks
-#pragma mark Touch Blocks
+#pragma mark Single Tap Block
 
 - (void)setTapBlock:(void (^)(RCDraggableButton *))tapBlock {
     _tapBlock = tapBlock;
@@ -114,46 +124,52 @@
     }
 }
 
-#pragma mark - Touch
+#pragma mark - Touch Event Handle
 
 - (void)buttonTouched {
     [self performSelector:@selector(executeButtonTouchedBlock) withObject:nil afterDelay:(_doubleTapBlock ? RC_DOUBLE_TAP_TIME_INTERVAL : 0)];
 }
 
 - (void)executeButtonTouchedBlock {
-    if (!_singleTapBeenCanceled && _tapBlock && !_isDragging) {
+    if ( !_singleTapCanceled && _tapBlock && !_isDragging) {
         _tapBlock(self);
     }
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+#pragma mark - Touch Delegate
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     _isDragging = NO;
+    
     [super touchesBegan:touches withEvent:event];
+    
     UITouch *touch = [touches anyObject];
+    
     if (touch.tapCount == 2) {
         if (_doubleTapBlock) {
-            _singleTapBeenCanceled = YES;
+            _singleTapCanceled = YES;
             _doubleTapBlock(self);
         }
     } else {
-        _singleTapBeenCanceled = NO;
+        _singleTapCanceled = NO;
     }
-    _beginLocation = [[touches anyObject] locationInView:self];
+    
+    _touchBeginPoint = [[touches anyObject] locationInView:self];
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_draggable) {
         _isDragging = YES;
         
         UITouch *touch = [touches anyObject];
-        CGPoint currentLocation = [touch locationInView:self];
+        CGPoint currentPoint = [touch locationInView:self];
         
-        float offsetX = currentLocation.x - _beginLocation.x;
-        float offsetY = currentLocation.y - _beginLocation.y;
+        float offsetX = currentPoint.x - _touchBeginPoint.x;
+        float offsetY = currentPoint.y - _touchBeginPoint.y;
         
         self.center = CGPointMake(self.center.x + offsetX, self.center.y + offsetY);
         
-        if ([self isdockPointAvailable] && [self isLimitedDistanceAvailable]) {
+        if ([self isDockPointAvailable] && [self isLimitedDistanceAvailable]) {
             [self checkIfExceedingLimitedDistanceThenFixIt];
         } else {
             [self checkIfOutOfBorderThenFixIt];
@@ -165,17 +181,16 @@
     }
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesEnded: touches withEvent: event];
     
-    if (_isDragging && _dragDoneBlock) {
-        _dragDoneBlock(self);
-        _singleTapBeenCanceled = YES;
+    if (_isDragging && _dragEndedBlock) {
+        _dragEndedBlock(self);
+        _singleTapCanceled = YES;
     }
     
     if (_isDragging && _autoDocking) {
-        if ( ![self isdockPointAvailable]) {
+        if ( ![self isDockPointAvailable]) {
             [self dockingToBorder];
         } else {
             [self dockingToPoint];
@@ -188,6 +203,8 @@
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     _isDragging = NO;
+    _singleTapCanceled = YES;
+    
     [super touchesCancelled:touches withEvent:event];
 }
 
@@ -197,7 +214,7 @@
 
 #pragma mark - Docking
 
-- (BOOL)isdockPointAvailable {
+- (BOOL)isDockPointAvailable {
     return !CGPointEqualToPoint(self.dockPoint, RC_POINT_NULL);
 }
 
@@ -206,29 +223,21 @@
     CGRect frame = self.frame;
     CGFloat middleX = superviewFrame.size.width / 2;
     
-    if (self.center.x >= middleX) {
-        [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
+    [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
+        if (self.center.x >= middleX) {
             self.center = CGPointMake(superviewFrame.size.width - frame.size.width / 2, self.center.y);
-            if (_autoDockingBlock) {
-                _autoDockingBlock(self);
-            }
-        } completion:^(BOOL finished) {
-            if (_autoDockingDoneBlock) {
-                _autoDockingDoneBlock(self);
-            }
-        }];
-    } else {
-        [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
+        } else {
             self.center = CGPointMake(frame.size.width / 2, self.center.y);
-            if (_autoDockingBlock) {
-                _autoDockingBlock(self);
-            }
-        } completion:^(BOOL finished) {
-            if (_autoDockingDoneBlock) {
-                _autoDockingDoneBlock(self);
-            }
-        }];
-    }
+        }
+        
+        if (_autoDockingBlock) {
+            _autoDockingBlock(self);
+        }
+    } completion:^(BOOL finished) {
+        if (_autoDockEndedBlock) {
+            _autoDockEndedBlock(self);
+        }
+    }];
 }
 
 - (void)dockingToPoint {
@@ -238,13 +247,13 @@
             _autoDockingBlock(self);
         }
     } completion:^(BOOL finished) {
-        if (_autoDockingDoneBlock) {
-            _autoDockingDoneBlock(self);
+        if (_autoDockEndedBlock) {
+            _autoDockEndedBlock(self);
         }
     }];
 }
 
-#pragma mark - Dragging
+#pragma mark - Dragging Distance And Checkings
 
 - (BOOL)isLimitedDistanceAvailable {
     return (self.limitedDistance > 0);
@@ -255,7 +264,7 @@
     
     CGFloat distance = hypotf(tmpDPoint.x, tmpDPoint.y);
     
-    BOOL willExceedingLimitedDistance = distance >= self.limitedDistance;
+    BOOL willExceedingLimitedDistance = (distance >= self.limitedDistance);
     
     if (willExceedingLimitedDistance) {
         self.center = CGPointMake(tmpDPoint.x * self.limitedDistance / distance + self.dockPoint.x, tmpDPoint.y * self.limitedDistance / distance + self.dockPoint.y);
@@ -265,7 +274,7 @@
 }
 
 - (BOOL)checkIfOutOfBorderThenFixIt {
-    BOOL willOutOfBorder = NO;
+    BOOL willOutOfBorder = YES;
     
     CGRect superviewFrame = self.superview.frame;
     CGRect frame = self.frame;
@@ -274,20 +283,24 @@
     CGFloat topLimitY = frame.size.height / 2;
     CGFloat bottomLimitY = superviewFrame.size.height - topLimitY;
     
+    CGPoint fixedPoint = self.center;
+    
     if (self.center.x > rightLimitX) {
-        willOutOfBorder = YES;
-        self.center = CGPointMake(rightLimitX, self.center.y);
+        fixedPoint.x = rightLimitX;
     }else if (self.center.x <= leftLimitX) {
-        willOutOfBorder = YES;
-        self.center = CGPointMake(leftLimitX, self.center.y);
+        fixedPoint.x = leftLimitX;
     }
     
     if (self.center.y > bottomLimitY) {
-        willOutOfBorder = YES;
-        self.center = CGPointMake(self.center.x, bottomLimitY);
+        fixedPoint.y = bottomLimitY;
     }else if (self.center.y <= topLimitY){
-        willOutOfBorder = YES;
-        self.center = CGPointMake(self.center.x, topLimitY);
+        fixedPoint.y = topLimitY;
+    }
+    
+    if (CGPointEqualToPoint(self.center, fixedPoint)) {
+        willOutOfBorder = NO;
+    } else {
+        self.center = fixedPoint;
     }
     
     return willOutOfBorder;
@@ -304,15 +317,15 @@
 #pragma mark Items In View
 
 + (NSArray *)itemsInView:(id)view {
-    NSMutableArray *subviews = [NSMutableArray arrayWithArray:[view subviews]];
-    
-    if (! subviews) {
-        subviews = [NSMutableArray arrayWithArray:[[UIApplication sharedApplication].keyWindow subviews]];
+    if ( !view) {
+        view = [UIApplication sharedApplication].keyWindow;
     }
     
-    for (id view in subviews) {
-        if ( ![view isKindOfClass:[RCDraggableButton class]]) {
-            [subviews removeObject:view];
+    NSMutableArray *subviews = [[NSMutableArray alloc] init];
+    
+    for (id subview in [view subviews]) {
+        if ([subview isKindOfClass:[RCDraggableButton class]]) {
+            [subviews addObject:subview];
         }
     }
     
@@ -337,45 +350,45 @@
     return  [self isIntersectsRect:rect] && ![self isInsideRect:rect];
 }
 
-#pragma mark Remove All Code Blocks
+#pragma mark Clean All Code Blocks
 
-- (void)removeAllCodeBlocks {
+- (void)cleanAllCodeBlocks {
     self.longPressBlock = nil;
     self.tapBlock = nil;
     self.doubleTapBlock = nil;
     
     self.draggingBlock = nil;
-    self.dragDoneBlock = nil;
+    self.dragEndedBlock = nil;
     
     self.autoDockingBlock = nil;
-    self.autoDockingDoneBlock = nil;
+    self.autoDockEndedBlock = nil;
 }
 
-#pragma mark - Remove all from view
+#pragma mark - Remove All From View
 
-+ (void)removeAllFromView:(id)superView {
-    for (id view in [self itemsInView:superView]) {
-        [view removeFromSuperview];
++ (void)removeAllFromView:(id)view {
+    for (id subview in [self itemsInView:view]) {
+        [subview removeFromSuperview];
     }
 }
 
-#pragma mark - Remove from view with tag(s)
+#pragma mark - Remove From View With Tag(s)
 
-+ (void)removeFromView:(id)superView withTag:(NSInteger)tag {
-    for (id view in [self itemsInView:superView]) {
-        if (((RCDraggableButton *)view).tag == tag) {
-            [view removeFromSuperview];
++ (void)removeFromView:(id)view withTag:(NSInteger)tag {
+    for (RCDraggableButton *subview in [self itemsInView:view]) {
+        if (subview.tag == tag) {
+            [subview removeFromSuperview];
         }
     }
 }
 
-+ (void)removeFromView:(id)superView withTags:(NSArray *)tags {
++ (void)removeFromView:(id)view withTags:(NSArray *)tags {
     for (NSNumber *tag in tags) {
-        [RCDraggableButton removeFromView:superView withTag:[tag intValue]];
+        [RCDraggableButton removeFromView:view withTag:[tag intValue]];
     }
 }
 
-#pragma mark - Remove from view inside rect
+#pragma mark - Remove From View Inside Rect
 
 + (void)removeAllFromView:(id)view insideRect:(CGRect)rect {
     for (id subview in [self itemsInView:view]) {
@@ -388,7 +401,6 @@
 - (void)removeFromSuperviewInsideRect:(CGRect)rect {
     if (self.superview && [self isInsideRect:rect]) {
         [self removeFromSuperview];
-        [self removeAllCodeBlocks];
     }
 }
 
@@ -422,6 +434,13 @@
     if (self.superview && [self isInsideRect:rect]) {
         [self removeFromSuperview];
     }
+}
+
+#pragma mark - removeFromSuperview
+
+- (void)removeFromSuperview {
+    [super removeFromSuperview];
+    [self cleanAllCodeBlocks];
 }
 
 @end
