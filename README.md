@@ -28,14 +28,18 @@ A draggable button that appears in your view.
 
 ## Demo
 
-In terminal, run
+In your terminal,
 
 ``` bash
 cd [projdir]/RCDraggableButtonDemo
 pod install
 ```
 
-Now, build and run the `RCDraggableButtonDemo` project using `RCDraggableButtonDemo.xcworkspace` in Xcode5 to see `RCDraggableButton` in action.
+After a cup of tea, you should be able to build and run the `RCDraggableButtonDemo` project by open `RCDraggableButtonDemo.xcworkspace` in Xcode5.
+
+``` bash
+open RCDraggableButtonDemo.xcworkspace
+```
 
 
 ## Installation
@@ -50,9 +54,20 @@ In your `Podfile`, add a line shown below:
 pod 'RCDraggableButton', '~> 0.1'
 ```
 
+Then,
+
+``` bash
+pod update
+```
+
+If you haven't used `CocoaPods` before, you should visit [CocoaPods](http://cocoapods.org/) for more info. It's more amazing than you think.
+
+
 ### Manual Install
 
-All you need to do is drop `Classes` files into your project, and add `#include "RCDraggableButton.h"` to the top of classes that will use it.
+All you need to do is drop `Classes` files into your project, and add `#include "RCDraggableButton.h"` to the top of classes that will use it. 
+
+Recommend using `New Group` in Xcode to make project files seems more organized.
 
 
 ## Example Usage
@@ -77,9 +92,9 @@ You can also use it manually:
 	[self.view addSubview:draggableButton];
 ```
 
-For more usage example please look up the demo project in `RCDraggableButtonDemo` folder, or the source files in `Classes` folder.
+For more usage example please look up the demo project in `RCDraggableButtonDemo`, or the source files in `Classes`.
 
 
 ## License
 
-RCDraggableButton is available under the MIT license.
+RCDraggableButton is available under the MIT license. See the [LICENSE](https://github.com/RidgeCorn/RCDraggableButton/blob/master/LICENSE) file for more info.
