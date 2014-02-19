@@ -26,8 +26,8 @@
 
 #import "RCDraggableButton.h"
 
-#define RC_WAITING_KEYWINDOW_AVAILABLE 0.f
-#define RC_AUTODOCKING_ANIMATE_DURATION 0.2f
+#define RC_DEFAULT_DELAY_TIME 0.f
+#define RC_DEFAULT_ANIMATE_DURATION 0.2f
 #define RC_DOUBLE_TAP_TIME_INTERVAL 0.36f
 
 #define RC_POINT_NULL CGPointMake(MAXFLOAT, -MAXFLOAT)
@@ -63,7 +63,7 @@
         if (view) {
             [view addSubview:self];
         } else {
-            [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:RC_WAITING_KEYWINDOW_AVAILABLE];
+            [self performSelector:@selector(addButtonToKeyWindow) withObject:nil afterDelay:RC_DEFAULT_DELAY_TIME];
         }
     }
     return self;
@@ -167,13 +167,7 @@
         float offsetX = currentPoint.x - _touchBeginPoint.x;
         float offsetY = currentPoint.y - _touchBeginPoint.y;
         
-        self.center = CGPointMake(self.center.x + offsetX, self.center.y + offsetY);
-        
-        if ([self isDockPointAvailable] && [self isLimitedDistanceAvailable]) {
-            [self checkIfExceedingLimitedDistanceThenFixIt];
-        } else {
-            [self checkIfOutOfBorderThenFixIt];
-        }
+        [self moveToPoint:CGPointMake(self.center.x + offsetX, self.center.y + offsetY) animatedWithDuration:RC_DEFAULT_ANIMATE_DURATION delay:0 options:0 completion:nil];
         
         if (_draggingBlock) {
             _draggingBlock(self);
@@ -223,7 +217,7 @@
     CGRect frame = self.frame;
     CGFloat middleX = superviewFrame.size.width / 2;
     
-    [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
+    [UIView animateWithDuration:RC_DEFAULT_ANIMATE_DURATION animations:^{
         if (self.center.x >= middleX) {
             self.center = CGPointMake(superviewFrame.size.width - frame.size.width / 2, self.center.y);
         } else {
@@ -241,7 +235,7 @@
 }
 
 - (void)dockingToPoint {
-    [UIView animateWithDuration:RC_AUTODOCKING_ANIMATE_DURATION animations:^{
+    [UIView animateWithDuration:RC_DEFAULT_ANIMATE_DURATION animations:^{
         self.center = self.dockPoint;
         if (_autoDockingBlock) {
             _autoDockingBlock(self);
@@ -364,6 +358,18 @@
     self.autoDockEndedBlock = nil;
 }
 
+#pragma mark Reset Center
+
+- (void)resetCenter:(CGPoint)center {
+    self.center = center;
+    
+    if ([self isDockPointAvailable] && [self isLimitedDistanceAvailable]) {
+        [self checkIfExceedingLimitedDistanceThenFixIt];
+    } else {
+        [self checkIfOutOfBorderThenFixIt];
+    }
+}
+
 #pragma mark - Remove All From View
 
 + (void)removeAllFromView:(id)view {
@@ -441,6 +447,62 @@
 - (void)removeFromSuperview {
     [super removeFromSuperview];
     [self cleanAllCodeBlocks];
+}
+
+#pragma mark - Auto Move To Point
+
++ (void)allInView:(id)view moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion {
+    for (RCDraggableButton *subview in [self itemsInView:view]) {
+        [subview moveToPoint:point animatedWithDuration:duration delay:delay options:options completion:completion];
+    }
+}
+
++ (void)inView:(id)view withTag:(NSInteger)tag moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion {
+    for (RCDraggableButton *subview in [self itemsInView:view]) {
+        if (tag == subview.tag) {
+            [subview moveToPoint:point animatedWithDuration:duration delay:delay options:options completion:completion];
+        }
+    }
+}
+
++ (void)inView:(id)view withTags:(NSArray *)tags moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion {
+    for (NSNumber *tag in tags) {
+        [self inView:view withTag:[tag integerValue] moveToPoint:point animatedWithDuration:duration delay:delay options:options completion:completion];
+    }
+}
+
+- (void)moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion {
+    [UIView animateWithDuration:duration delay:delay options:options animations:^{
+        [self resetCenter:point];
+    } completion:^(BOOL finished) {
+        if (completion) {
+            completion();
+        }
+    }];
+}
+
++ (void)allInView:(id)view moveToPoint:(CGPoint)point {
+    for (RCDraggableButton *subview in [self itemsInView:view]) {
+        [subview moveToPoint:point];
+    }
+}
+
++ (void)inView:(id)view withTag:(NSInteger)tag moveToPoint:(CGPoint)point {
+    for (RCDraggableButton *subview in [self itemsInView:view]) {
+        if (tag == subview.tag) {
+            [subview moveToPoint:point];
+        }
+    }
+}
+
++ (void)inView:(id)view withTags:(NSArray *)tags moveToPoint:(CGPoint)point {
+    for (NSNumber *tag in tags) {
+        [self inView:view withTag:[tag integerValue] moveToPoint:point];
+    }
+}
+
+- (void)moveToPoint:(CGPoint)point {
+    [self moveToPoint:point animatedWithDuration:RC_DEFAULT_ANIMATE_DURATION delay:0 options:0 completion:nil];
 }
 
 @end

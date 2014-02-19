@@ -25,7 +25,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#define RCDRAGGABLEBUTTON_VERSION @"0.3"
+#define RCDRAGGABLEBUTTON_VERSION @"0.4_dev"
 
 @interface RCDraggableButton : UIButton {
     BOOL _isDragging;
@@ -77,5 +77,15 @@
 
 + (void)removeAllFromView:(id)view crossedRect:(CGRect)rect;
 - (void)removeFromSuperviewCrossedRect:(CGRect)rect;
+
++ (void)allInView:(id)view moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion;
++ (void)inView:(id)view withTag:(NSInteger)tag moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion;
++ (void)inView:(id)view withTags:(NSArray *)tags moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion;
+- (void)moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion;
+
++ (void)allInView:(id)view moveToPoint:(CGPoint)point;
++ (void)inView:(id)view withTag:(NSInteger)tag moveToPoint:(CGPoint)point;
++ (void)inView:(id)view withTags:(NSArray *)tags moveToPoint:(CGPoint)point;
+- (void)moveToPoint:(CGPoint)point;
 
 @end

@@ -58,14 +58,17 @@
  
     [avatar setLongPressBlock:^(RCDraggableButton *avatar) {
         [[self.view viewWithTag:90] setHidden:NO];
+        [RCDraggableButton allInView:self.view moveToPoint:CGPointMake(200, 200)];
     }];
     
     [avatar setTapBlock:^(RCDraggableButton *avatar) {
         [[self.view viewWithTag:90] setHidden:NO];
+        [avatar moveToPoint:CGPointMake(avatar.center.x + 1, avatar.center.y - 1)];
     }];
     
     [avatar setDoubleTapBlock:^(RCDraggableButton *avatar) {
         [[self.view viewWithTag:90] setHidden:NO];
+        [RCDraggableButton inView:self.view withTag:92 moveToPoint:CGPointMake(200, 400)];
     }];
     
     [avatar setDraggingBlock:^(RCDraggableButton *avatar) {
@@ -98,9 +101,9 @@
     }];
     
     [avatar setAutoDockEndedBlock:^(RCDraggableButton *avatar) {
-        NSLog(@"\n\tAvatar in keyWindow === AutoDockingDone!!! ===");
-        //More todo here.
-        
+        [avatar moveToPoint:CGPointMake(300, 300) animatedWithDuration:0.f delay:0 options:0 completion:^{
+            NSLog(@"Moving complete!");
+        }];
     }];
 }
 
@@ -163,6 +166,7 @@
 - (void)addControlButton {
     RCDraggableButton *removeAllFromKeyWindow = [[RCDraggableButton alloc] initInView:self.view WithFrame:CGRectMake(10, 280, 300, 44)];
     [removeAllFromKeyWindow addTarget:self action:@selector(removeAllFromKeyWindow) forControlEvents:UIControlEventTouchUpInside];
+    [removeAllFromKeyWindow setTag:92];
     [removeAllFromKeyWindow setTitle:@"Remove All From KeyWindow" forState:UIControlStateNormal];
     [removeAllFromKeyWindow setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [removeAllFromKeyWindow setDraggable:NO];
