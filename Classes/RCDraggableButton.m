@@ -30,6 +30,9 @@
 #define RC_DEFAULT_ANIMATE_DURATION 0.2f
 #define RC_DOUBLE_TAP_TIME_INTERVAL 0.36f
 
+#define RC_TRACES_NUMBER 10
+#define RC_TRACE_DISMISS_TIME_INTERVAL 0.05f
+
 #define RC_POINT_NULL CGPointMake(MAXFLOAT, -MAXFLOAT)
 
 @implementation RCDraggableButton
@@ -89,6 +92,9 @@
     [self setDockPoint:RC_POINT_NULL];
     
     [self setLimitedDistance: -1.f];
+    
+    self.isTraceEnabled = NO;
+    _traceButtons = [[NSMutableArray alloc] initWithCapacity:RC_TRACES_NUMBER];
 }
 
 #pragma mark Add Button To KeyWindow
@@ -168,6 +174,22 @@
         float offsetY = currentPoint.y - _touchBeginPoint.y;
         
         [self moveToPoint:CGPointMake(self.center.x + offsetX, self.center.y + offsetY) animatedWithDuration:RC_DEFAULT_ANIMATE_DURATION delay:0 options:0 completion:nil];
+        
+        if (self.isTraceEnabled) {
+            if ([_traceButtons count] < RC_TRACES_NUMBER) {
+                RCDraggableButton *traceButton = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];;
+                [traceButton setAlpha:0.8];
+                [traceButton setSelected:NO];
+                [traceButton setHighlighted:NO];
+                [traceButton defaultSetting];
+                [self.superview addSubview: traceButton];
+                [_traceButtons addObject:traceButton];
+            }
+            [self.superview bringSubviewToFront:self];
+            if ( !_traceDismissTimer) {
+                _traceDismissTimer = [NSTimer scheduledTimerWithTimeInterval:RC_TRACE_DISMISS_TIME_INTERVAL target:self selector:@selector(dismissTraceButton) userInfo:nil repeats:YES];
+            }
+        }
         
         if (_draggingBlock) {
             _draggingBlock(self);
@@ -505,4 +527,16 @@
     [self moveToPoint:point animatedWithDuration:RC_DEFAULT_ANIMATE_DURATION delay:0 options:0 completion:nil];
 }
 
+#pragma mark - Trace
+#pragma mark Dismiss
+
+- (void)dismissTraceButton {
+    if ([_traceButtons count]) {
+        [[_traceButtons firstObject] removeFromSuperview];
+        [_traceButtons removeObject:[_traceButtons firstObject]];
+    } else {
+        [_traceDismissTimer invalidate];
+        _traceDismissTimer = nil;
+    }
+}
 @end

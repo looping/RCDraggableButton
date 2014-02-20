@@ -31,10 +31,13 @@
     BOOL _isDragging;
     BOOL _singleTapCanceled;
     CGPoint _touchBeginPoint;
+    NSMutableArray *_traceButtons;
+    NSTimer *_traceDismissTimer;
 }
 
 @property (nonatomic) BOOL draggable;
 @property (nonatomic) BOOL autoDocking;
+@property (nonatomic) BOOL isTraceEnabled;
 
 @property (nonatomic) CGPoint dockPoint;
 @property (nonatomic) CGFloat limitedDistance;

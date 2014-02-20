@@ -55,7 +55,8 @@
 - (void)loadAvatarInKeyWindow {
     RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:nil WithFrame:CGRectMake(0, 100, 60, 60)];
     [avatar setBackgroundImage:[UIImage imageNamed:@"avatar"] forState:UIControlStateNormal];
- 
+    [avatar setIsTraceEnabled:YES];
+    
     [avatar setLongPressBlock:^(RCDraggableButton *avatar) {
         [[self.view viewWithTag:90] setHidden:NO];
         [RCDraggableButton allInView:self.view moveToPoint:CGPointMake(200, 200)];
@@ -101,7 +102,7 @@
     }];
     
     [avatar setAutoDockEndedBlock:^(RCDraggableButton *avatar) {
-        [avatar moveToPoint:CGPointMake(300, 300) animatedWithDuration:0.f delay:0 options:0 completion:^{
+        [avatar moveToPoint:CGPointMake(0, 130) animatedWithDuration:0.f delay:0 options:0 completion:^{
             NSLog(@"Moving complete!");
         }];
     }];
