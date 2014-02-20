@@ -173,7 +173,7 @@
         float offsetX = currentPoint.x - _touchBeginPoint.x;
         float offsetY = currentPoint.y - _touchBeginPoint.y;
         
-        [self moveToPoint:CGPointMake(self.center.x + offsetX, self.center.y + offsetY) animatedWithDuration:RC_DEFAULT_ANIMATE_DURATION delay:0 options:0 completion:nil];
+        [self resetCenter:CGPointMake(self.center.x + offsetX, self.center.y + offsetY)];
         
         if (self.isTraceEnabled) {
             if ([_traceButtons count] < RC_TRACES_NUMBER) {
