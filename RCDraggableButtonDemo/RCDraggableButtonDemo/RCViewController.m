@@ -92,19 +92,12 @@
             [tipsLabel setText:@"Drag here to remove it!"];
         }
         [[self.view viewWithTag:90] setHidden:YES];
-        [avatar removeFromSuperviewInsideRect:[self.view viewWithTag:90].frame];
-    }];
-    
-    [avatar setAutoDockingBlock:^(RCDraggableButton *avatar) {
-        NSLog(@"\n\tAvatar in keyWindow === AutoDocking!!! ===");
-        //More todo here.
         
-    }];
-    
-    [avatar setAutoDockEndedBlock:^(RCDraggableButton *avatar) {
-        [avatar moveToPoint:CGPointMake(0, 130) animatedWithDuration:0.f delay:0 options:0 completion:^{
-            NSLog(@"Moving complete!");
+        [avatar moveToPoint:CGPointMake(30, 130) animatedWithDuration:2.f delay:0 options:0 completion:^{
+            NSLog(@"Moving completed!");
         }];
+        
+        [avatar removeFromSuperviewInsideRect:[self.view viewWithTag:90].frame];
     }];
 }
 

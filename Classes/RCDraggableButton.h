@@ -31,7 +31,10 @@
     BOOL _isDragging;
     BOOL _singleTapCanceled;
     CGPoint _touchBeginPoint;
+    CGPoint _moveBeginPoint;
+    
     NSMutableArray *_traceButtons;
+    NSTimer *_autoAddTraceButtonTimer;
     NSTimer *_traceDismissTimer;
 }
 

@@ -176,19 +176,7 @@
         [self resetCenter:CGPointMake(self.center.x + offsetX, self.center.y + offsetY)];
         
         if (self.isTraceEnabled) {
-            if ([_traceButtons count] < RC_TRACES_NUMBER) {
-                RCDraggableButton *traceButton = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];;
-                [traceButton setAlpha:0.8];
-                [traceButton setSelected:NO];
-                [traceButton setHighlighted:NO];
-                [traceButton defaultSetting];
-                [self.superview addSubview: traceButton];
-                [_traceButtons addObject:traceButton];
-            }
-            [self.superview bringSubviewToFront:self];
-            if ( !_traceDismissTimer) {
-                _traceDismissTimer = [NSTimer scheduledTimerWithTimeInterval:RC_TRACE_DISMISS_TIME_INTERVAL target:self selector:@selector(dismissTraceButton) userInfo:nil repeats:YES];
-            }
+            [self addTraceButton];
         }
         
         if (_draggingBlock) {
@@ -494,11 +482,19 @@
 }
 
 - (void)moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion {
+    _moveBeginPoint = self.center;
+    if (self.isTraceEnabled) {
+        [self addTraceButtonsDuringMoveToPoint:point animatedWithDuration:duration delay:delay options:options];
+    }
     [UIView animateWithDuration:duration delay:delay options:options animations:^{
         [self resetCenter:point];
     } completion:^(BOOL finished) {
         if (completion) {
             completion();
+        }
+        if (_autoAddTraceButtonTimer) {
+            [_autoAddTraceButtonTimer invalidate];
+            _autoAddTraceButtonTimer = nil;
         }
     }];
 }
@@ -530,6 +526,47 @@
 #pragma mark - Trace
 #pragma mark Dismiss
 
+- (void)addTraceButtonsDuringMoveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options {
+    
+    for (NSInteger count = 0; count < RC_TRACES_NUMBER; count ++) {
+        RCDraggableButton *traceButton = [self loadTraceButton];
+        traceButton.center = _moveBeginPoint;
+
+        [self.superview addSubview: traceButton];
+
+        [traceButton moveToPoint:point animatedWithDuration: duration + duration * (RC_TRACES_NUMBER - count) / RC_TRACES_NUMBER delay:delay options:options completion:nil];
+        
+        [traceButton performSelector:@selector(dismissSelf) withObject:nil afterDelay: count * duration / RC_TRACES_NUMBER];
+    }
+    [self.superview bringSubviewToFront:self];
+}
+
+- (RCDraggableButton *)loadTraceButton {
+    RCDraggableButton *traceButton = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];;
+    
+    [traceButton setAlpha:0.8];
+    [traceButton setSelected:NO];
+    [traceButton setHighlighted:NO];
+    [traceButton defaultSetting];
+    
+    return traceButton;
+}
+
+- (void)addTraceButton {
+
+    if ([_traceButtons count] < RC_TRACES_NUMBER) {
+        RCDraggableButton *traceButton = [self loadTraceButton];
+        [self.superview addSubview: traceButton];
+        [_traceButtons addObject:traceButton];
+    }
+    
+    [self.superview bringSubviewToFront:self];
+    
+    if ( !_traceDismissTimer) {
+        _traceDismissTimer = [NSTimer scheduledTimerWithTimeInterval:RC_TRACE_DISMISS_TIME_INTERVAL target:self selector:@selector(dismissTraceButton) userInfo:nil repeats:YES];
+    }
+}
+
 - (void)dismissTraceButton {
     if ([_traceButtons count]) {
         [[_traceButtons firstObject] removeFromSuperview];
@@ -539,4 +576,10 @@
         _traceDismissTimer = nil;
     }
 }
+
+- (void)dismissSelf {
+    [self setHidden:NO];
+    [self performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:RC_TRACE_DISMISS_TIME_INTERVAL];
+}
+
 @end
