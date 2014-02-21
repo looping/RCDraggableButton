@@ -454,8 +454,8 @@
 #pragma mark - removeFromSuperview
 
 - (void)removeFromSuperview {
-    [super removeFromSuperview];
     [self cleanAllCodeBlocks];
+    [super removeFromSuperview];
 }
 
 #pragma mark - Auto Move To Point
