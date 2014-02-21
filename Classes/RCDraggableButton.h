@@ -30,6 +30,8 @@
 @interface RCDraggableButton : UIButton {
     BOOL _isDragging;
     BOOL _singleTapCanceled;
+    BOOL _skipTapEventOnce;
+    
     CGPoint _touchBeginPoint;
     CGPoint _moveBeginPoint;
     

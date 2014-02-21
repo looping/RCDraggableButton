@@ -137,8 +137,10 @@
 }
 
 - (void)executeButtonTouchedBlock {
-    if ( !_singleTapCanceled && _tapBlock && !_isDragging) {
+    if ( !_singleTapCanceled && _tapBlock && !_isDragging && !_skipTapEventOnce) {
         _tapBlock(self);
+    } else {
+        _skipTapEventOnce = NO;
     }
 }
 
@@ -182,6 +184,8 @@
         if (_draggingBlock) {
             _draggingBlock(self);
         }
+        
+        _skipTapEventOnce = YES;
     }
 }
 
