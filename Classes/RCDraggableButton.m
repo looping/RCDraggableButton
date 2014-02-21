@@ -265,7 +265,7 @@
 - (BOOL)checkIfExceedingLimitedDistanceThenFixIt {
     CGPoint tmpDPoint = CGPointMake(self.center.x - self.dockPoint.x, self.center.y - self.dockPoint.y);
     
-    CGFloat distance = hypotf(tmpDPoint.x, tmpDPoint.y);
+    CGFloat distance = [self distanceFromPoint:self.dockPoint];
     
     BOOL willExceedingLimitedDistance = (distance >= self.limitedDistance);
     
@@ -583,6 +583,19 @@
 - (void)dismissSelf {
     [self setHidden:NO];
     [self performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:RC_TRACE_DISMISS_TIME_INTERVAL];
+}
+
+#pragma mark - Calculate Distance
+#pragma mark From Point
+
+- (CGFloat)distanceFromPoint:(CGPoint)point {
+    return hypotf(self.center.x - point.x, self.center.y - point.y);
+}
+
+#pragma mark From Rect
+
+- (CGFloat)distanceFromRect:(CGRect)rect {
+    return [self distanceFromPoint:CGPointMake(rect.origin.x + rect.size.width / 2, rect.origin.y + rect.size.height / 2)];
 }
 
 @end

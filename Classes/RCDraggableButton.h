@@ -99,4 +99,8 @@
 + (void)inView:(id)view withTags:(NSArray *)tags moveToPoint:(CGPoint)point;
 - (void)moveToPoint:(CGPoint)point;
 
+- (CGFloat)distanceFromPoint:(CGPoint)point;
+
+- (CGFloat)distanceFromRect:(CGRect)rect;
+
 @end

@@ -139,9 +139,7 @@
     };
     
     avatar.draggingBlock = ^(RCDraggableButton *avatar) {
-        NSLog(@"\n\tAvatar in customView === Dragging!!! ===");
-        //More todo here.
-        
+        NSLog(@"Distance from customView = %f", [avatar distanceFromRect:[self.view convertRect:customView.frame toView:customView]]);
     };
     
     avatar.dragEndedBlock = ^(RCDraggableButton *avatar) {
