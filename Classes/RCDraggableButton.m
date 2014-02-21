@@ -75,11 +75,6 @@
 #pragma mark Default Setting
 
 - (void)defaultSetting {
-    [self.layer setCornerRadius:self.frame.size.height / 2];
-    [self.layer setBorderColor:[UIColor lightGrayColor].CGColor];
-    [self.layer setBorderWidth:0.5];
-    [self.layer setMasksToBounds:YES];
-    
     _draggable = YES;
     _autoDocking = YES;
     _singleTapCanceled = NO;
@@ -546,12 +541,16 @@
 }
 
 - (RCDraggableButton *)loadTraceButton {
-    RCDraggableButton *traceButton = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];;
+    RCDraggableButton *traceButton = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];
     
     [traceButton setAlpha:0.8];
     [traceButton setSelected:NO];
     [traceButton setHighlighted:NO];
     [traceButton defaultSetting];
+    
+    if (self.layerConfigBlock) {
+        self.layerConfigBlock(traceButton);
+    }
     
     return traceButton;
 }
