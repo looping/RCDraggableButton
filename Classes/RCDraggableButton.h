@@ -31,6 +31,7 @@
     BOOL _isDragging;
     BOOL _singleTapCanceled;
     BOOL _skipTapEventOnce;
+    BOOL _willBeRemoved;
     
     CGPoint _touchBeginPoint;
     CGPoint _moveBeginPoint;

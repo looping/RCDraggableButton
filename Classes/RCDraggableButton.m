@@ -78,6 +78,7 @@
     _draggable = YES;
     _autoDocking = YES;
     _singleTapCanceled = NO;
+    _willBeRemoved = NO;
     
     UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] init];
     [longPressGestureRecognizer addTarget:self action:@selector(gestureRecognizerHandle:)];
@@ -454,6 +455,8 @@
 #pragma mark - removeFromSuperview
 
 - (void)removeFromSuperview {
+    _willBeRemoved = YES;
+    
     [self cleanAllCodeBlocks];
     [super removeFromSuperview];
 }
@@ -481,21 +484,23 @@
 }
 
 - (void)moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion {
-    _moveBeginPoint = self.center;
-    if (self.isTraceEnabled) {
-        [self addTraceButtonsDuringMoveToPoint:point animatedWithDuration:duration delay:delay options:options];
+    if ( !_willBeRemoved) {
+        _moveBeginPoint = self.center;
+        if (self.isTraceEnabled) {
+            [self addTraceButtonsDuringMoveToPoint:point animatedWithDuration:duration delay:delay options:options];
+        }
+        [UIView animateWithDuration:duration delay:delay options:options animations:^{
+            [self resetCenter:point];
+        } completion:^(BOOL finished) {
+            if (completion) {
+                completion();
+            }
+            if (_autoAddTraceButtonTimer) {
+                [_autoAddTraceButtonTimer invalidate];
+                _autoAddTraceButtonTimer = nil;
+            }
+        }];
     }
-    [UIView animateWithDuration:duration delay:delay options:options animations:^{
-        [self resetCenter:point];
-    } completion:^(BOOL finished) {
-        if (completion) {
-            completion();
-        }
-        if (_autoAddTraceButtonTimer) {
-            [_autoAddTraceButtonTimer invalidate];
-            _autoAddTraceButtonTimer = nil;
-        }
-    }];
 }
 
 + (void)allInView:(id)view moveToPoint:(CGPoint)point {
