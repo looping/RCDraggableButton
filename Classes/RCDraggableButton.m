@@ -81,6 +81,7 @@
     _willBeRemoved = NO;
     
     UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] init];
+    longPressGestureRecognizer.cancelsTouchesInView = NO;
     [longPressGestureRecognizer addTarget:self action:@selector(gestureRecognizerHandle:)];
     [longPressGestureRecognizer setAllowableMovement:0];
     [self addGestureRecognizer:longPressGestureRecognizer];
