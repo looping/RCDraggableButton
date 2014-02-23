@@ -497,6 +497,10 @@
 #pragma mark - removeFromSuperview
 
 - (void)removeFromSuperview {
+    if (_willBeRemovedBlock) {
+        _willBeRemovedBlock(self);
+    }
+    
     _willBeRemoved = YES;
     
     [self cleanAllCodeBlocks];

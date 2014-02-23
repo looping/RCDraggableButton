@@ -64,6 +64,7 @@
 
 @property (nonatomic, copy) void(^layerConfigBlock)(RCDraggableButton *button);
 
+@property (nonatomic, copy) void(^willBeRemovedBlock)(RCDraggableButton *button);
 
 - (id)initInView:(id)view WithFrame:(CGRect)frame;
 

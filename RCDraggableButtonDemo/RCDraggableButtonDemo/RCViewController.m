@@ -109,6 +109,10 @@
     [avatar setDragCancelledBlock:^(RCDraggableButton *button) {
         [[self.view viewWithTag:90] setHidden:YES];
     }];
+    
+    [avatar setWillBeRemovedBlock:^(RCDraggableButton *button) {
+        NSLog(@"Will be removed!");
+    }];
 }
 
 - (void)loadAvatarInCustomView {
