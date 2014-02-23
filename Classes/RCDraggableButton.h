@@ -32,6 +32,7 @@
     BOOL _singleTapCanceled;
     BOOL _skipTapEventOnce;
     BOOL _willBeRemoved;
+    BOOL _draggableAfterLongPress;
     
     CGPoint _touchBeginPoint;
     CGPoint _moveBeginPoint;
@@ -49,11 +50,14 @@
 @property (nonatomic) CGFloat limitedDistance;
 
 @property (nonatomic, copy) void(^longPressBlock)(RCDraggableButton *button);
+@property (nonatomic, copy) void(^longPressEndedBlock)(RCDraggableButton *button);
+
 @property (nonatomic, copy) void(^tapBlock)(RCDraggableButton *button);
 @property (nonatomic, copy) void(^doubleTapBlock)(RCDraggableButton *button);
 
 @property (nonatomic, copy) void(^draggingBlock)(RCDraggableButton *button);
 @property (nonatomic, copy) void(^dragEndedBlock)(RCDraggableButton *button);
+@property (nonatomic, copy) void(^dragCancelledBlock)(RCDraggableButton *button);
 
 @property (nonatomic, copy) void(^autoDockingBlock)(RCDraggableButton *button);
 @property (nonatomic, copy) void(^autoDockEndedBlock)(RCDraggableButton *button);
@@ -103,5 +107,7 @@
 - (CGFloat)distanceFromPoint:(CGPoint)point;
 
 - (CGFloat)distanceFromRect:(CGRect)rect;
+
+- (void)setDraggableAfterLongPress:(BOOL)draggableAfterLongPress;
 
 @end

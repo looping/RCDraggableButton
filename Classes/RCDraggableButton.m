@@ -76,16 +76,11 @@
 
 - (void)defaultSetting {
     _draggable = YES;
-    _autoDocking = YES;
+    _autoDocking = NO;
     _singleTapCanceled = NO;
     _willBeRemoved = NO;
-    
-    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] init];
-    longPressGestureRecognizer.cancelsTouchesInView = NO;
-    [longPressGestureRecognizer addTarget:self action:@selector(gestureRecognizerHandle:)];
-    [longPressGestureRecognizer setAllowableMovement:0];
-    [self addGestureRecognizer:longPressGestureRecognizer];
-    
+    _draggableAfterLongPress = NO;
+
     [self setDockPoint:RC_POINT_NULL];
     
     [self setLimitedDistance: -1.f];
@@ -108,9 +103,21 @@
             if (_longPressBlock) {
                 _longPressBlock(self);
             }
+            
+            _skipTapEventOnce = YES;
+            
+            if (_draggableAfterLongPress) {
+                _draggable = YES;
+            }
         }
             break;
-            
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled: {
+            if (_longPressEndedBlock) {
+                _longPressEndedBlock(self);
+            }
+        }
+            break;
         default:
             break;
     }
@@ -125,6 +132,28 @@
     if (_tapBlock) {
         [self addTarget:self action:@selector(buttonTouched) forControlEvents:UIControlEventTouchUpInside];
     }
+}
+
+#pragma mark Long Tap Block
+
+- (void)setLongPressBlock:(void (^)(RCDraggableButton *))longPressBlock {
+    _longPressBlock = longPressBlock;
+    if (_longPressBlock) {
+        [self addLongPressToButton];
+    }
+}
+
+- (void)addLongPressToButton {
+    for (id gestureRecognizer in self.gestureRecognizers) {
+        if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+            [self removeGestureRecognizer:gestureRecognizer];
+        }
+    }
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] init];
+    longPressGestureRecognizer.cancelsTouchesInView = NO;
+    [longPressGestureRecognizer addTarget:self action:@selector(gestureRecognizerHandle:)];
+    [longPressGestureRecognizer setAllowableMovement:0];
+    [self addGestureRecognizer:longPressGestureRecognizer];
 }
 
 #pragma mark - Touch Event Handle
@@ -201,16 +230,28 @@
             [self dockingToPoint];
         }
     }
+    
+    if (_draggableAfterLongPress) {
+        _draggable = NO;
+    }
 
     _isDragging = NO;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    [super touchesCancelled:touches withEvent:event];
+
     _isDragging = NO;
     _singleTapCanceled = YES;
     
-    [super touchesCancelled:touches withEvent:event];
+    if (_draggableAfterLongPress) {
+        _draggable = NO;
+    }
+    
+    if (_dragCancelledBlock) {
+        _dragCancelledBlock(self);
+    }
 }
 
 - (BOOL)isDragging {
@@ -602,6 +643,13 @@
 
 - (CGFloat)distanceFromRect:(CGRect)rect {
     return [self distanceFromPoint:CGPointMake(rect.origin.x + rect.size.width / 2, rect.origin.y + rect.size.height / 2)];
+}
+
+#pragma mark - Draggable After Long Press
+
+- (void)setDraggableAfterLongPress:(BOOL)draggableAfterLongPress {
+    _draggableAfterLongPress = draggableAfterLongPress;
+    _draggable = NO;
 }
 
 @end

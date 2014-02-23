@@ -54,7 +54,7 @@
 
 - (void)loadAvatarInKeyWindow {
     RCDraggableButton *avatar = [[RCDraggableButton alloc] initInView:nil WithFrame:CGRectMake(0, 100, 60, 60)];
-    
+    [avatar setDraggableAfterLongPress:YES];
     [self configLayer: avatar];
    
     [avatar setBackgroundImage:[UIImage imageNamed:@"avatar"] forState:UIControlStateNormal];
@@ -62,16 +62,19 @@
     
     [avatar setLongPressBlock:^(RCDraggableButton *avatar) {
         [[self.view viewWithTag:90] setHidden:NO];
-        [RCDraggableButton allInView:self.view moveToPoint:CGPointMake(200, 200)];
+    }];
+    
+    [avatar setLongPressEndedBlock:^(RCDraggableButton *avatar) {
+        [[self.view viewWithTag:90] setHidden:YES];
     }];
     
     [avatar setTapBlock:^(RCDraggableButton *avatar) {
-        [[self.view viewWithTag:90] setHidden:NO];
+        [[self.view viewWithTag:90] setHidden:YES];
+        
         [avatar moveToPoint:CGPointMake(avatar.center.x + 1, avatar.center.y - 1)];
     }];
     
     [avatar setDoubleTapBlock:^(RCDraggableButton *avatar) {
-        [[self.view viewWithTag:90] setHidden:NO];
         [RCDraggableButton inView:self.view withTag:92 moveToPoint:CGPointMake(200, 400)];
     }];
     
@@ -101,6 +104,10 @@
         [avatar moveToPoint:CGPointMake(30, 130) animatedWithDuration:2.f delay:0 options:0 completion:^{
             NSLog(@"Moving completed!");
         }];
+    }];
+    
+    [avatar setDragCancelledBlock:^(RCDraggableButton *button) {
+        [[self.view viewWithTag:90] setHidden:YES];
     }];
 }
 
