@@ -45,6 +45,7 @@
 @property (nonatomic) BOOL draggable;
 @property (nonatomic) BOOL autoDocking;
 @property (nonatomic) BOOL isTraceEnabled;
+@property (nonatomic) BOOL dragOutOfBoundsEnabled;
 
 @property (nonatomic) CGPoint dockPoint;
 @property (nonatomic) CGFloat limitedDistance;

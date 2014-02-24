@@ -80,7 +80,8 @@
     _singleTapCanceled = NO;
     _willBeRemoved = NO;
     _draggableAfterLongPress = NO;
-
+    _dragOutOfBoundsEnabled = NO;
+    
     [self setDockPoint:RC_POINT_NULL];
     
     [self setLimitedDistance: -1.f];
@@ -319,8 +320,8 @@
     return willExceedingLimitedDistance;
 }
 
-- (BOOL)checkIfOutOfBorderThenFixIt {
-    BOOL willOutOfBorder = YES;
+- (BOOL)checkIfOutOfBoundsThenFixIt {
+    BOOL willOutOfBounds = YES;
     
     CGRect superviewFrame = self.superview.frame;
     CGRect frame = self.frame;
@@ -344,12 +345,12 @@
     }
     
     if (CGPointEqualToPoint(self.center, fixedPoint)) {
-        willOutOfBorder = NO;
+        willOutOfBounds = NO;
     } else {
         self.center = fixedPoint;
     }
     
-    return willOutOfBorder;
+    return willOutOfBounds;
 }
 
 #pragma mark - Version
@@ -417,8 +418,8 @@
     
     if ([self isDockPointAvailable] && [self isLimitedDistanceAvailable]) {
         [self checkIfExceedingLimitedDistanceThenFixIt];
-    } else {
-        [self checkIfOutOfBorderThenFixIt];
+    } else if ( !self.dragOutOfBoundsEnabled) {
+        [self checkIfOutOfBoundsThenFixIt];
     }
 }
 
