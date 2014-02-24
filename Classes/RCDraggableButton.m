@@ -81,6 +81,7 @@
     _willBeRemoved = NO;
     _draggableAfterLongPress = NO;
     _dragOutOfBoundsEnabled = NO;
+    _isRecordingDraggingPathEnabled = NO;
     
     [self setDockPoint:RC_POINT_NULL];
     
@@ -208,6 +209,10 @@
             [self addTraceButton];
         }
         
+        if (_isRecordingDraggingPathEnabled) {
+            [_draggingPath addLineToPoint:self.center];
+        }
+        
         if (_draggingBlock) {
             _draggingBlock(self);
         }
@@ -281,6 +286,10 @@
             _autoDockingBlock(self);
         }
     } completion:^(BOOL finished) {
+        if (_isRecordingDraggingPathEnabled) {
+            [_draggingPath addLineToPoint:self.center];
+        }
+        
         if (_autoDockEndedBlock) {
             _autoDockEndedBlock(self);
         }
@@ -294,6 +303,10 @@
             _autoDockingBlock(self);
         }
     } completion:^(BOOL finished) {
+        if (_isRecordingDraggingPathEnabled) {
+            [_draggingPath addLineToPoint:self.center];
+        }
+        
         if (_autoDockEndedBlock) {
             _autoDockEndedBlock(self);
         }
@@ -539,12 +552,17 @@
         [UIView animateWithDuration:duration delay:delay options:options animations:^{
             [self resetCenter:point];
         } completion:^(BOOL finished) {
-            if (completion) {
-                completion();
-            }
             if (_autoAddTraceButtonTimer) {
                 [_autoAddTraceButtonTimer invalidate];
                 _autoAddTraceButtonTimer = nil;
+            }
+            
+            if (_isRecordingDraggingPathEnabled) {
+                [_draggingPath addLineToPoint:self.center];
+            }
+            
+            if (completion) {
+                completion();
             }
         }];
     }
@@ -655,6 +673,37 @@
 - (void)setDraggableAfterLongPress:(BOOL)draggableAfterLongPress {
     _draggableAfterLongPress = draggableAfterLongPress;
     _draggable = NO;
+}
+
+#pragma mark - Record Dragging Path
+
+- (void)startRecordDraggingPath {
+    _isRecordingDraggingPathEnabled = YES;
+    
+    if ( !_draggingPath) {
+        _draggingPath = [UIBezierPath bezierPath];
+    }
+    
+    [_draggingPath removeAllPoints];
+    
+    [_draggingPath moveToPoint:self.center];
+}
+
+- (UIBezierPath *)stopRecordDraggingPath {
+    _isRecordingDraggingPathEnabled = NO;
+    return _draggingPath;
+}
+
+- (BOOL)isRecordingDraggingPath {
+    return _isRecordingDraggingPathEnabled;
+}
+
+- (UIBezierPath *)draggingPath {
+    if ( !_draggingPath) {
+        _draggingPath = [UIBezierPath bezierPath];
+    }
+    
+    return _draggingPath;
 }
 
 @end

@@ -9,6 +9,9 @@
 #import "RCViewController.h"
 
 @interface RCViewController ()
+@property (nonatomic, strong) UIBezierPath *draggingPath;
+@property (nonatomic, strong) CALayer *animationLayer;
+@property (nonatomic, strong) CAShapeLayer *pathLayer;
 
 @end
 
@@ -17,6 +20,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.animationLayer = [CALayer layer];
+    self.animationLayer.frame = CGRectMake(.0f, .0f,
+                                           CGRectGetWidth(self.view.layer.bounds) - .0f,
+                                           CGRectGetHeight(self.view.layer.bounds) - .0f);
+    [self.view.layer addSublayer:self.animationLayer];
     
     [self loadTrashCan];
     
@@ -62,6 +71,7 @@
     
     [avatar setLongPressBlock:^(RCDraggableButton *avatar) {
         [[self.view viewWithTag:90] setHidden:NO];
+        [avatar startRecordDraggingPath];
     }];
     
     [avatar setLongPressEndedBlock:^(RCDraggableButton *avatar) {
@@ -103,11 +113,15 @@
 
         [avatar moveToPoint:CGPointMake(30, 130) animatedWithDuration:2.f delay:0 options:0 completion:^{
             NSLog(@"Moving completed!");
+            self.draggingPath = [avatar stopRecordDraggingPath];
+            [self setupDrawingLayer];
+            [self startAnimation];
         }];
     }];
     
     [avatar setDragCancelledBlock:^(RCDraggableButton *button) {
         [[self.view viewWithTag:90] setHidden:YES];
+        [button stopRecordDraggingPath];
     }];
     
     [avatar setWillBeRemovedBlock:^(RCDraggableButton *button) {
@@ -223,6 +237,36 @@
         [button.layer setMasksToBounds:YES];
     }];
     button.layerConfigBlock(button);
+}
+
+- (void) setupDrawingLayer
+{
+    if (self.pathLayer != nil) {
+        [self.pathLayer removeFromSuperlayer];
+        self.pathLayer = nil;
+    }
+    
+    self.pathLayer = [CAShapeLayer layer];
+    self.pathLayer.frame = self.animationLayer.bounds;
+    self.pathLayer.bounds = self.view.frame;
+    self.pathLayer.path = self.draggingPath.CGPath;
+    self.pathLayer.strokeColor = [[UIColor blackColor] CGColor];
+    self.pathLayer.fillColor = nil;
+    self.pathLayer.lineWidth = 10.0f;
+    self.pathLayer.lineJoin = kCALineJoinBevel;
+    
+    [self.animationLayer addSublayer:self.pathLayer];
+}
+
+- (void) startAnimation
+{
+    [self.pathLayer removeAllAnimations];
+    
+    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"draggingEnd"];
+    pathAnimation.duration = 3.0;
+    pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+    pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+    [self.pathLayer addAnimation:pathAnimation forKey:@"draggingEnd"];
 }
 
 @end

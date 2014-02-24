@@ -33,9 +33,12 @@
     BOOL _skipTapEventOnce;
     BOOL _willBeRemoved;
     BOOL _draggableAfterLongPress;
+    BOOL _isRecordingDraggingPathEnabled;
     
     CGPoint _touchBeginPoint;
     CGPoint _moveBeginPoint;
+    
+    UIBezierPath *_draggingPath;
     
     NSMutableArray *_traceButtons;
     NSTimer *_autoAddTraceButtonTimer;
@@ -112,4 +115,8 @@
 
 - (void)setDraggableAfterLongPress:(BOOL)draggableAfterLongPress;
 
+- (void)startRecordDraggingPath;
+- (UIBezierPath *)stopRecordDraggingPath;
+- (BOOL)isRecordingDraggingPath;
+- (UIBezierPath *)draggingPath;
 @end
