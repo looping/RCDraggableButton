@@ -119,4 +119,8 @@
 - (UIBezierPath *)stopRecordDraggingPath;
 - (BOOL)isRecordingDraggingPath;
 - (UIBezierPath *)draggingPath;
+
+- (BOOL)checkIfExceedingLimitedDistanceThenFixIt:(BOOL)fixIt;
+- (BOOL)checkIfOutOfBoundsThenFixIt:(BOOL)fixIt;
+
 @end

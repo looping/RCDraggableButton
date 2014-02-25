@@ -319,21 +319,21 @@
     return (self.limitedDistance > 0);
 }
 
-- (BOOL)checkIfExceedingLimitedDistanceThenFixIt {
+- (BOOL)checkIfExceedingLimitedDistanceThenFixIt:(BOOL)fixIt {
     CGPoint tmpDPoint = CGPointMake(self.center.x - self.dockPoint.x, self.center.y - self.dockPoint.y);
     
     CGFloat distance = [self distanceFromPoint:self.dockPoint];
     
     BOOL willExceedingLimitedDistance = (distance >= self.limitedDistance);
     
-    if (willExceedingLimitedDistance) {
+    if (willExceedingLimitedDistance && fixIt) {
         self.center = CGPointMake(tmpDPoint.x * self.limitedDistance / distance + self.dockPoint.x, tmpDPoint.y * self.limitedDistance / distance + self.dockPoint.y);
     }
     
     return willExceedingLimitedDistance;
 }
 
-- (BOOL)checkIfOutOfBoundsThenFixIt {
+- (BOOL)checkIfOutOfBoundsThenFixIt:(BOOL)fixIt {
     BOOL willOutOfBounds = YES;
     
     CGRect superviewFrame = self.superview.frame;
@@ -359,7 +359,7 @@
     
     if (CGPointEqualToPoint(self.center, fixedPoint)) {
         willOutOfBounds = NO;
-    } else {
+    } else if (fixIt) {
         self.center = fixedPoint;
     }
     
@@ -430,9 +430,9 @@
     self.center = center;
     
     if ([self isDockPointAvailable] && [self isLimitedDistanceAvailable]) {
-        [self checkIfExceedingLimitedDistanceThenFixIt];
+        [self checkIfExceedingLimitedDistanceThenFixIt: YES];
     } else if ( !self.dragOutOfBoundsEnabled) {
-        [self checkIfOutOfBoundsThenFixIt];
+        [self checkIfOutOfBoundsThenFixIt: YES];
     }
 }
 
