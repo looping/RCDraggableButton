@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "RCDraggableButton"
-  s.version 	 = "0.3"
+  s.version 	 = "0.4"
   s.summary      = "A draggable button that appears in your view."
   s.homepage     = "https://github.com/RidgeCorn/RCDraggableButton"
   s.license      = { :type => "MIT", :file => "LICENSE" }
