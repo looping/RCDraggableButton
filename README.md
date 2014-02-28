@@ -10,10 +10,11 @@
 A draggable button that appears in your view.
 
 <img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshots/Screenshot1.png" alt="RCDraggableButton Screenshot1" width="320" height="568" />
-
 <img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshots/Screenshot2.png" alt="RCDraggableButton Screenshot2" width="320" height="568" />
-
 <img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshots/Screenshot3.png" alt="RCDraggableButton Screenshot3" width="320" height="568" />
+<img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshots/Screenshot4.png" alt="RCDraggableButton Screenshot4" width="320" height="568" />
+<img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshots/Screenshot5.png" alt="RCDraggableButton Screenshot5" width="320" height="568" />
+<img src="https://github.com/RidgeCorn/RCDraggableButton/raw/master/Screenshots/Screenshot6.png" alt="RCDraggableButton Screenshot6" width="320" height="568" />
 
 ## Note
 
@@ -48,7 +49,7 @@ open RCDraggableButtonDemo.xcworkspace
 
 The recommended approach for installating `RCDraggableButton` is via the [CocoaPods](http://cocoapods.org/) package manager.
 
-In your `Podfile`, add a line shown below:
+In your `Podfile`, add a line shows below:
 
 ``` bash
 pod 'RCDraggableButton', '~> 0.1'
@@ -60,14 +61,12 @@ Then,
 pod update
 ```
 
-If you haven't used `CocoaPods` before, you should visit [CocoaPods](http://cocoapods.org/) for more info. It's more amazing than you think.
+If you haven't used `CocoaPods` before, you should visit [CocoaPods](http://cocoapods.org/) for more info. 
 
 
 ### Manual Install
 
-All you need to do is drop `Classes` files into your project, and add `#include "RCDraggableButton.h"` to the top of classes that will use it. 
-
-Recommend using `New Group` in Xcode to make project files seems more organized.
+All you need to do is drop `Src` files into your project, and add `#include "RCDraggableButton.h"` to the top of classes that will use it. 
 
 
 ## Example Usage
@@ -92,7 +91,7 @@ You can also use it manually:
 	[self.view addSubview:draggableButton];
 ```
 
-For more usage example please look up the demo project in `RCDraggableButtonDemo`, or the source files in `Classes`.
+For more usage example, please look up the demo project in `RCDraggableButtonDemo`, or the source files in `Src`.
 
 
 ## License

@@ -25,7 +25,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#define RCDRAGGABLEBUTTON_VERSION @"0.4_dev"
+#define RCDRAGGABLEBUTTON_VERSION @"0.4"
 
 @interface RCDraggableButton : UIButton {
     BOOL _isDragging;

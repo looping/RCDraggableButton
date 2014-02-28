@@ -151,6 +151,7 @@
             [self removeGestureRecognizer:gestureRecognizer];
         }
     }
+    
     UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] init];
     longPressGestureRecognizer.cancelsTouchesInView = NO;
     [longPressGestureRecognizer addTarget:self action:@selector(gestureRecognizerHandle:)];
@@ -299,6 +300,7 @@
 - (void)dockingToPoint {
     [UIView animateWithDuration:RC_DEFAULT_ANIMATE_DURATION animations:^{
         self.center = self.dockPoint;
+        
         if (_autoDockingBlock) {
             _autoDockingBlock(self);
         }
@@ -514,10 +516,10 @@
     if (_willBeRemovedBlock) {
         _willBeRemovedBlock(self);
     }
-    
     _willBeRemoved = YES;
     
     [self cleanAllCodeBlocks];
+    
     [super removeFromSuperview];
 }
 
@@ -546,9 +548,11 @@
 - (void)moveToPoint:(CGPoint)point animatedWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options completion:(void (^)())completion {
     if ( !_willBeRemoved) {
         _moveBeginPoint = self.center;
+        
         if (self.isTraceEnabled) {
             [self addTraceButtonsDuringMoveToPoint:point animatedWithDuration:duration delay:delay options:options];
         }
+        
         [UIView animateWithDuration:duration delay:delay options:options animations:^{
             [self resetCenter:point];
         } completion:^(BOOL finished) {
@@ -607,6 +611,7 @@
         
         [traceButton performSelector:@selector(dismissSelf) withObject:nil afterDelay: count * duration / RC_TRACES_NUMBER];
     }
+    
     [self.superview bringSubviewToFront:self];
 }
 
@@ -691,6 +696,7 @@
 
 - (UIBezierPath *)stopRecordDraggingPath {
     _isRecordingDraggingPathEnabled = NO;
+    
     return _draggingPath;
 }
 
